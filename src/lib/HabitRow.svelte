@@ -35,14 +35,19 @@
 	$: month, subscribeToData();
 	$: year, subscribeToData();
 
+	// Dirty
+	// TODO: reuse from parent
+	$: monthDays = [...Array(new Date(year, month, 0).getDate()).keys()].map((d) => d + 1);
+
 	const subscribeToData = () => {
 		if (unsub) unsub();
 
-		const startTime = Timestamp.fromDate(new Date(`${year}-${month}-1`));
+		const startDate = new Date(year, month, 1);
+		const startTime = Timestamp.fromDate(startDate);
 		// TODO: find better way
-		const endTime = Timestamp.fromDate(
-			new Date(`${month < 12 ? year : year + 1}-${month < 12 ? month + 1 : 1}-1`)
-		);
+		const endDate = new Date(year, month, 1);
+		endDate.setMonth(endDate.getMonth() + 1);
+		const endTime = Timestamp.fromDate(endDate);
 
 		const collectionRef = collection(firestore, 'habits', habit.id, 'achievements');
 
@@ -64,7 +69,7 @@
 	// TODO: have those two in a component
 	const createAchievement = async (habit: Habit, day: number) => {
 		// TODO: Find better way
-		const date = new Date(`${year}-${month}-${day}`);
+		const date = new Date(year, month, day);
 		const time = Timestamp.fromDate(date);
 
 		try {
@@ -102,7 +107,7 @@
 	</Cell>
 	{#if achievementsMap}
 		<!-- TODO: Deal with months that have less than 31 days -->
-		{#each [...Array(31).keys()].map((d) => d + 1) as day}
+		{#each monthDays as day}
 			{#if achievementsMap.get(day)}
 				<Cell>
 					<IconButton

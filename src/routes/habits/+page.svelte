@@ -18,6 +18,9 @@
 	let month = new Date().getMonth() + 1;
 	let year = new Date().getFullYear();
 
+	// Dirty
+	$: monthDays = [...Array(new Date(year, month, 0).getDate()).keys()].map((d) => d + 1);
+
 	currentUser.subscribe((user) => {
 		if (!user) return;
 		const collectionRef = collection(firestore, 'habits');
@@ -48,12 +51,14 @@
 		<NewHabitDialog />
 	</p>
 
+	<p>{monthDays.length}</p>
+
 	<DataTable>
 		<Head>
 			<Row>
 				<Cell>Name</Cell>
 				<Cell>Description</Cell>
-				{#each [...Array(31).keys()].map((d) => d + 1) as day}
+				{#each monthDays as day}
 					<Cell>{day}</Cell>
 				{/each}
 			</Row>
