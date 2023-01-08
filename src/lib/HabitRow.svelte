@@ -31,9 +31,10 @@
 		if (unsub) unsub();
 	});
 
-	// Watch month and year changes
+	// Watch changes
 	$: month, subscribeToData();
 	$: year, subscribeToData();
+	$: habit, subscribeToData();
 
 	// Dirty
 	// TODO: reuse from parent
