@@ -5,52 +5,37 @@
 	import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
 	import IconButton from '@smui/icon-button';
 	import { currentUser } from '$lib/firebase';
+	import HabitRow from '$lib/HabitRow.svelte';
+	import type { Unsubscribe } from 'firebase/firestore';
+	import NewHabitDialog from '$lib/NewHabitDialog.svelte';
 	import {
 		collection,
 		getDocs,
 		getFirestore,
 		doc,
 		updateDoc,
-		onSnapshot
+		onSnapshot,
+		addDoc,
+		where,
+		query
 	} from 'firebase/firestore';
-	import NewHabitDialog from '$lib/NewHabitDialog.svelte';
 
+	let unsub: Unsubscribe;
 	let habits: Habit[] = [];
 	const firestore = getFirestore();
 
-	onDestroy(() => {
-		unsub();
-	});
-
-	const collectionRef = collection(firestore, 'habits');
-
-	// const querySnapshot = await getDocs(collectionRef);
-	// habits = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
-	const unsub = onSnapshot(collectionRef, (collection) => {
-		habits = collection.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-	});
-
-	const achievementsToDayArray = (achievements) =>
-		achievements.map((a) => {
-			return a.toDate().getDate();
+	currentUser.subscribe((user) => {
+		if (!user) return;
+		const collectionRef = collection(firestore, 'habits');
+		const q = query(collectionRef, where('user_id', '==', user.uid));
+		unsub = onSnapshot(q, (collection) => {
+			habits = collection.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 		});
+	});
 
-	const createAchievement = async (habit, day) => {
-		const date = new Date(`2023-01-${day}`);
-		const nt = Timestamp.fromDate(date);
-		habit.achievements.push(nt);
-
-		try {
-			const collectionRef = collection(firestore, 'habits');
-			const docRef = doc(collectionRef, habit.id);
-			await updateDoc(docRef, habit);
-			alert('Item updated successfully');
-		} catch (error) {
-			alert(error);
-			console.error(error);
-		}
-	};
+	onDestroy(() => {
+		if (unsub) unsub();
+	});
 </script>
 
 <h2>Habits</h2>
@@ -72,24 +57,7 @@
 		</Head>
 		<Body>
 			{#each habits as habit}
-				<Row>
-					<Cell>
-						{habit.title}
-					</Cell>
-					<Cell />
-					<!-- This looks very bad -->
-					{#each [...Array(31).keys()].map((d) => d + 1) as day}
-						{#if achievementsToDayArray(habit.achievements).includes(day)}
-							<Cell>🏆</Cell>
-						{:else}
-							<Cell>
-								<IconButton class="material-icons" on:click={() => createAchievement(habit, day)}
-									>search</IconButton
-								>
-							</Cell>
-						{/if}
-					{/each}
-				</Row>
+				<HabitRow {habit} />
 			{/each}
 		</Body>
 	</DataTable>
