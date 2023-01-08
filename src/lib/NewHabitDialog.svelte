@@ -8,12 +8,12 @@
 
 	let open = false;
 
-	let newHabit = { title: '', description: '', user_id: $currentUser.uid };
+	let newHabit = { title: '', description: '' };
 
 	const createItem = async () => {
 		try {
 			const firestore = getFirestore();
-			const collectionRef = collection(firestore, 'habits');
+			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
 			await addDoc(collectionRef, newHabit);
 		} catch (error) {
 			console.error(error);

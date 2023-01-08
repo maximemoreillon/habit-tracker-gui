@@ -3,6 +3,7 @@
 	import type Achievement from '$lib/types/achievement';
 	import { Timestamp } from 'firebase/firestore';
 	import { onDestroy } from 'svelte';
+	import { currentUser } from '$lib/firebase';
 
 	import IconButton from '@smui/icon-button';
 	import { Row, Cell } from '@smui/data-table';
@@ -40,6 +41,15 @@
 	// TODO: reuse from parent
 	$: monthDays = [...Array(new Date(year, month, 0).getDate()).keys()].map((d) => d + 1);
 
+	const collectionRef = collection(
+		firestore,
+		'users',
+		$currentUser.uid,
+		'habits',
+		habit.id,
+		'achievements'
+	);
+
 	const subscribeToData = () => {
 		if (unsub) unsub();
 
@@ -51,8 +61,6 @@
 		const endDate = new Date(year, month, 1);
 		endDate.setMonth(endDate.getMonth() + 1);
 		const endTime = Timestamp.fromDate(endDate);
-
-		const collectionRef = collection(firestore, 'habits', habit.id, 'achievements');
 
 		const q = query(collectionRef, where('time', '>=', startTime), where('time', '<', endTime));
 
@@ -76,7 +84,6 @@
 		const time = Timestamp.fromDate(date);
 
 		try {
-			const collectionRef = collection(firestore, 'habits', habit.id, 'achievements');
 			const newDoc = { time };
 			await addDoc(collectionRef, newDoc);
 		} catch (error) {
@@ -88,7 +95,6 @@
 	const deleteAchievement = async (achievement: Achievement | undefined) => {
 		if (!achievement || !achievement.id) return;
 		try {
-			const collectionRef = collection(firestore, 'habits', habit.id, 'achievements');
 			const docRef = doc(collectionRef, achievement.id);
 			await deleteDoc(docRef);
 		} catch (error) {

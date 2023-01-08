@@ -25,10 +25,9 @@
 
 	currentUser.subscribe((user) => {
 		if (!user) return;
-		const collectionRef = collection(firestore, 'habits');
-		const q = query(collectionRef, where('user_id', '==', user.uid));
+		const collectionRef = collection(firestore, 'users', user.uid, 'habits');
 		// TODO: check if data gets updated if another user updates his habits
-		unsub = onSnapshot(q, (collection) => {
+		unsub = onSnapshot(collectionRef, (collection) => {
 			// TODO: fix typescript typing
 			habits = collection.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 		});
