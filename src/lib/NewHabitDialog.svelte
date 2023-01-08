@@ -27,12 +27,12 @@
 
 	<form on:submit|preventDefault={createItem}>
 		<Content>
-			<div>
+			<p>
 				<Textfield bind:value={newHabit.title} label="Title" />
-			</div>
-			<div>
+			</p>
+			<p>
 				<Textfield bind:value={newHabit.description} label="Description" />
-			</div>
+			</p>
 		</Content>
 
 		<Actions>
@@ -44,5 +44,5 @@
 </Dialog>
 
 <Button on:click={() => (open = true)}>
-	<Label>New item</Label>
+	<Label>New habit</Label>
 </Button>
