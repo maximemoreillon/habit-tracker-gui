@@ -3,19 +3,10 @@
 	import type Achievement from '$lib/types/achievement';
 	import { Timestamp } from 'firebase/firestore';
 	import IconButton from '@smui/icon-button';
-	import { onMount, onDestroy } from 'svelte';
+	import { onDestroy } from 'svelte';
 
-	import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
-	import {
-		collection,
-		getDocs,
-		getFirestore,
-		doc,
-		updateDoc,
-		onSnapshot,
-		addDoc,
-		deleteDoc
-	} from 'firebase/firestore';
+	import { Row, Cell } from '@smui/data-table';
+	import { collection, getFirestore, doc, onSnapshot, addDoc, deleteDoc } from 'firebase/firestore';
 
 	export let habit: Habit;
 
@@ -45,7 +36,7 @@
 	});
 
 	const createAchievement = async (habit: Habit, day: number) => {
-		// TODO: get month and year
+		// TODO: month and year
 
 		const date = new Date(`2023-01-${day}`);
 		const time = Timestamp.fromDate(date);
@@ -60,10 +51,11 @@
 		}
 	};
 
-	const deleteAchievement = async ({ id }) => {
+	const deleteAchievement = async (achievement: Achievement | undefined) => {
+		if (!achievement || achievement.id) return;
 		try {
 			const collectionRef = collection(firestore, 'habits', habit.id, 'achievements');
-			const docRef = doc(collectionRef, id);
+			const docRef = doc(collectionRef, achievement.id);
 			await deleteDoc(docRef);
 		} catch (error) {
 			alert(error);
@@ -73,6 +65,7 @@
 </script>
 
 <Row>
+	<!-- TODO: allow editing of those -->
 	<Cell>
 		{habit.title}
 	</Cell>

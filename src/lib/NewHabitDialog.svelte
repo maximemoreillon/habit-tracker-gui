@@ -14,7 +14,7 @@
 		try {
 			const firestore = getFirestore();
 			const collectionRef = collection(firestore, 'habits');
-			const { id } = await addDoc(collectionRef, newHabit);
+			await addDoc(collectionRef, newHabit);
 		} catch (error) {
 			console.error(error);
 		}
@@ -23,7 +23,7 @@
 
 <Dialog bind:open>
 	<!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-	<Title id="simple-title">Dialog Title</Title>
+	<Title id="simple-title">New habit</Title>
 
 	<form on:submit|preventDefault={createItem}>
 		<Content>
