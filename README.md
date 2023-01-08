@@ -17,4 +17,5 @@ npm run dev -- --open
 
 - [ ] Year and month select
 - [ ] Weekly, monthly, yearly views
+- [ ] Get actual length of the selected month
 - [ ] i18n
