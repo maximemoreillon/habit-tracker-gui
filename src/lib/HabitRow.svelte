@@ -2,43 +2,69 @@
 	import type Habit from '$lib/types/habit';
 	import type Achievement from '$lib/types/achievement';
 	import { Timestamp } from 'firebase/firestore';
-	import IconButton from '@smui/icon-button';
 	import { onDestroy } from 'svelte';
 
+	import IconButton from '@smui/icon-button';
 	import { Row, Cell } from '@smui/data-table';
-	import { collection, getFirestore, doc, onSnapshot, addDoc, deleteDoc } from 'firebase/firestore';
+	import {
+		collection,
+		getFirestore,
+		doc,
+		onSnapshot,
+		addDoc,
+		deleteDoc,
+		query,
+		where
+	} from 'firebase/firestore';
+	import type { Unsubscribe } from 'firebase/firestore';
 
 	export let habit: Habit;
+	export let month: number;
+	export let year: number;
 
-	let achievements = [];
-
-	// TypeScript gets angry at this hash map
+	let unsub: Unsubscribe;
 	let achievementsMap: Map<number, Achievement>;
 
 	const firestore = getFirestore();
 
 	onDestroy(() => {
-		unsub();
+		if (unsub) unsub();
 	});
 
-	const collectionRef = collection(firestore, 'habits', habit.id, 'achievements');
+	// Watch month and year changes
+	$: month, subscribeToData();
+	$: year, subscribeToData();
 
-	const unsub = onSnapshot(collectionRef, (collection) => {
-		achievementsMap = collection.docs.reduce((prev, doc) => {
-			// Still not ideal because might want to have a view for weeks
-			const achievement = doc.data();
-			const day = achievement.time.toDate().getDate();
+	const subscribeToData = () => {
+		if (unsub) unsub();
 
-			prev.set(day, { id: doc.id, ...achievement });
+		const startTime = Timestamp.fromDate(new Date(`${year}-${month}-1`));
+		// TODO: find better way
+		const endTime = Timestamp.fromDate(
+			new Date(`${month < 12 ? year : year + 1}-${month < 12 ? month + 1 : 1}-1`)
+		);
 
-			return prev;
-		}, new Map());
-	});
+		const collectionRef = collection(firestore, 'habits', habit.id, 'achievements');
 
+		const q = query(collectionRef, where('time', '>=', startTime), where('time', '<', endTime));
+
+		unsub = onSnapshot(q, (collection) => {
+			achievementsMap = collection.docs.reduce((prev, doc) => {
+				// Still not ideal because might want to have a view for weeks
+				const achievement = doc.data();
+				const day = achievement.time.toDate().getDate();
+
+				prev.set(day, { id: doc.id, ...achievement });
+
+				return prev;
+			}, new Map());
+		});
+	};
+
+	// TODO: have those two in a component
 	const createAchievement = async (habit: Habit, day: number) => {
-		// TODO: month and year
-
-		const date = new Date(`2023-01-${day}`);
+		// TODO: Find better way
+		const date = new Date(`${year}-${month}-${day}`);
 		const time = Timestamp.fromDate(date);
 
 		try {
@@ -52,7 +78,7 @@
 	};
 
 	const deleteAchievement = async (achievement: Achievement | undefined) => {
-		if (!achievement || achievement.id) return;
+		if (!achievement || !achievement.id) return;
 		try {
 			const collectionRef = collection(firestore, 'habits', habit.id, 'achievements');
 			const docRef = doc(collectionRef, achievement.id);
@@ -62,6 +88,8 @@
 			console.error(error);
 		}
 	};
+
+	// TODO: update of habit (title, description)
 </script>
 
 <Row>

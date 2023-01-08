@@ -2,15 +2,21 @@
 	import type Habit from '$lib/types/habit';
 	import { onDestroy } from 'svelte';
 	import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
+	import Textfield from '@smui/textfield';
+
+	import Select, { Option } from '@smui/select';
 	import { currentUser } from '$lib/firebase';
 	import HabitRow from '$lib/HabitRow.svelte';
 	import type { Unsubscribe } from 'firebase/firestore';
 	import NewHabitDialog from '$lib/NewHabitDialog.svelte';
 	import { collection, getFirestore, onSnapshot, where, query } from 'firebase/firestore';
 
+	const firestore = getFirestore();
+
 	let unsub: Unsubscribe;
 	let habits: Habit[] = [];
-	const firestore = getFirestore();
+	let month = new Date().getMonth() + 1;
+	let year = new Date().getFullYear();
 
 	currentUser.subscribe((user) => {
 		if (!user) return;
@@ -30,6 +36,13 @@
 
 <h2>Habits</h2>
 
+<Textfield bind:value={year} label="Year" type="number" />
+<Select bind:value={month} label="Month">
+	{#each [...Array(12).keys()].map((d) => d + 1) as month}
+		<Option value={month}>{month}</Option>
+	{/each}
+</Select>
+
 {#if $currentUser}
 	<p>
 		<NewHabitDialog />
@@ -47,7 +60,7 @@
 		</Head>
 		<Body>
 			{#each habits as habit}
-				<HabitRow {habit} />
+				<HabitRow {habit} {month} {year} />
 			{/each}
 		</Body>
 	</DataTable>
