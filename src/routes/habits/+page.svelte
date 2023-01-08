@@ -1,21 +1,23 @@
 <script lang="ts">
 	import type Habit from '$lib/types/habit';
+	import type { Unsubscribe } from 'firebase/firestore';
+
+	import { currentUser } from '$lib/firebase';
 	import { onDestroy } from 'svelte';
+	import { collection, getFirestore, onSnapshot, where, query } from 'firebase/firestore';
+
 	import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
 	import Textfield from '@smui/textfield';
-
 	import Select, { Option } from '@smui/select';
-	import { currentUser } from '$lib/firebase';
+
 	import HabitRow from '$lib/HabitRow.svelte';
-	import type { Unsubscribe } from 'firebase/firestore';
 	import NewHabitDialog from '$lib/NewHabitDialog.svelte';
-	import { collection, getFirestore, onSnapshot, where, query } from 'firebase/firestore';
 
 	const firestore = getFirestore();
 
 	let unsub: Unsubscribe;
 	let habits: Habit[] = [];
-	let month = new Date().getMonth() + 1;
+	let month = new Date().getMonth();
 	let year = new Date().getFullYear();
 
 	// Dirty
@@ -35,14 +37,19 @@
 	onDestroy(() => {
 		if (unsub) unsub();
 	});
+
+	// TODO: take month and year into account
+	const dayIsCurrentDay = (day: number) =>
+		new Date(year, month, day).toDateString() === new Date().toDateString();
 </script>
 
 <h2>Habits</h2>
 
 <Textfield bind:value={year} label="Year" type="number" />
 <Select bind:value={month} label="Month">
-	{#each [...Array(12).keys()].map((d) => d + 1) as month}
-		<Option value={month}>{month}</Option>
+	{#each [...Array(12).keys()] as month}
+		<!-- WARNING: January is 0 -->
+		<Option value={month}>{month + 1}</Option>
 	{/each}
 </Select>
 
@@ -51,15 +58,18 @@
 		<NewHabitDialog />
 	</p>
 
-	<p>{monthDays.length}</p>
-
+	<!-- TODO: consider using CSS grid -->
+	<!-- TODO: consider vertical layout for smartphones -->
 	<DataTable>
 		<Head>
 			<Row>
 				<Cell>Name</Cell>
-				<Cell>Description</Cell>
 				{#each monthDays as day}
-					<Cell>{day}</Cell>
+					<Cell>
+						<span class:current={dayIsCurrentDay(day)} class="day">
+							{day}
+						</span>
+					</Cell>
 				{/each}
 			</Row>
 		</Head>
@@ -72,3 +82,16 @@
 {:else}
 	<p>This content is only accessible to authenticated users</p>
 {/if}
+
+<style>
+	.day {
+		display: flex;
+		justify-content: center;
+		padding: 0.5rem;
+		border-radius: 0.5em;
+	}
+	.current {
+		background-color: orange;
+	}
+	/* TODO: past and future days */
+</style>

@@ -17,5 +17,7 @@ npm run dev -- --open
 
 - [x] Year and month select
 - [ ] Weekly, monthly, yearly views
-- [ ] Get actual length of the selected month
+- [x] Get actual length of the selected month
 - [ ] i18n
+- [ ] Redirect unauthenticated users to Login page
+- [ ] Update and delete habits

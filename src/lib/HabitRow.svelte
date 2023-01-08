@@ -42,9 +42,11 @@
 	const subscribeToData = () => {
 		if (unsub) unsub();
 
+		// WARNING: january is 0
 		const startDate = new Date(year, month, 1);
 		const startTime = Timestamp.fromDate(startDate);
 		// TODO: find better way
+		// WARNING: january is 0
 		const endDate = new Date(year, month, 1);
 		endDate.setMonth(endDate.getMonth() + 1);
 		const endTime = Timestamp.fromDate(endDate);
@@ -68,7 +70,7 @@
 
 	// TODO: have those two in a component
 	const createAchievement = async (habit: Habit, day: number) => {
-		// TODO: Find better way
+		// WARNING: january is 0
 		const date = new Date(year, month, day);
 		const time = Timestamp.fromDate(date);
 
@@ -95,33 +97,43 @@
 	};
 
 	// TODO: update of habit (title, description)
+	// This will be done the habit route
 </script>
 
 <Row>
 	<!-- TODO: allow editing of those -->
 	<Cell>
-		{habit.title}
-	</Cell>
-	<Cell>
-		{habit.description}
+		<a href={`/habits/${habit.id}`}>{habit.title}</a>
 	</Cell>
 	{#if achievementsMap}
 		<!-- TODO: Deal with months that have less than 31 days -->
 		{#each monthDays as day}
-			{#if achievementsMap.get(day)}
-				<Cell>
-					<IconButton
-						class="material-icons"
-						on:click={() => deleteAchievement(achievementsMap.get(day))}>delete</IconButton
-					>
-				</Cell>
-			{:else}
-				<Cell>
-					<IconButton class="material-icons" on:click={() => createAchievement(habit, day)}
-						>add</IconButton
-					>
-				</Cell>
-			{/if}
+			<Cell>
+				<span class:achieved={achievementsMap.get(day)} class="day">
+					{#if achievementsMap.get(day)}
+						<IconButton
+							class="material-icons"
+							on:click={() => deleteAchievement(achievementsMap.get(day))}>delete</IconButton
+						>
+					{:else}
+						<IconButton class="material-icons" on:click={() => createAchievement(habit, day)}
+							>add</IconButton
+						>
+					{/if}
+				</span>
+			</Cell>
 		{/each}
 	{/if}
 </Row>
+
+<style>
+	.day {
+		display: flex;
+		border-radius: 0.5rem;
+		padding: 0.125rem;
+	}
+
+	.achieved {
+		background-color: #6ecf6e;
+	}
+</style>
