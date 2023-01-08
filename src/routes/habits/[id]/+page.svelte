@@ -22,14 +22,18 @@
 	let habit: Habit;
 	const { id } = $page.params;
 
-	onMount(() => {
+	// TODO: subscribe to current user so as to run only when user data is available
+
+	currentUser.subscribe((user) => {
+		if (!user) return;
 		getHabit();
 	});
 
 	// TODO: prevent seeing other users' habits
 	const getHabit = async () => {
 		try {
-			const collectionRef = collection(firestore, 'habits');
+			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
+
 			const docRef = doc(collectionRef, id);
 			const docSnap = await getDoc(docRef);
 			habit = docSnap.data();
@@ -42,7 +46,8 @@
 	const deleteHabit = async () => {
 		if (!confirm('Delete habit?')) return;
 		try {
-			const collectionRef = collection(firestore, 'habits');
+			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
+
 			const docRef = doc(collectionRef, id);
 			await deleteDoc(docRef);
 			goto('/habits');
@@ -54,7 +59,8 @@
 
 	const updateHabit = async () => {
 		try {
-			const collectionRef = collection(firestore, 'habits');
+			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
+
 			const docRef = doc(collectionRef, id);
 			await updateDoc(docRef, habit);
 			alert('Habit updated successfully');
