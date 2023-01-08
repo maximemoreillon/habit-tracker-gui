@@ -14,7 +14,7 @@
 
 <Drawer variant="modal" bind:open fixed={false}>
 	<Header>
-		<Title>Schoolup</Title>
+		<Title>Habit tracker</Title>
 		<Subtitle>Beta</Subtitle>
 	</Header>
 	<Content>

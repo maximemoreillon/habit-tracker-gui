@@ -16,7 +16,7 @@
 		<Row>
 			<Section>
 				<IconButton class="material-icons" on:click={() => (open = !open)}>menu</IconButton>
-				<Title>Firebase + Svelte</Title>
+				<Title>Habit tracker</Title>
 			</Section>
 		</Row>
 	</TopAppBar>
