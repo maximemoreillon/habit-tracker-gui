@@ -57,8 +57,8 @@
 		<NewHabitDialog />
 	</p>
 
-	<!-- TODO: consider using CSS grid -->
 	<!-- TODO: consider vertical layout for smartphones -->
+	<!-- Grid can probably not be used because number of column depends on number of days -->
 	<DataTable>
 		<Head>
 			<Row>

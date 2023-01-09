@@ -19,6 +19,8 @@
 	} from 'firebase/firestore';
 	import type { Unsubscribe } from 'firebase/firestore';
 
+	import AchievementCell from './AchievementCell.svelte';
+
 	export let habit: Habit;
 	export let month: number;
 	export let year: number;
@@ -113,10 +115,9 @@
 		<a href={`/habits/${habit.id}`}>{habit.title}</a>
 	</Cell>
 	{#if achievementsMap}
-		<!-- TODO: Deal with months that have less than 31 days -->
 		{#each monthDays as day}
 			<Cell>
-				<span class:achieved={achievementsMap.get(day)} class="day">
+				<!-- <span class:achieved={achievementsMap.get(day)} class="day">
 					{#if achievementsMap.get(day)}
 						<IconButton
 							class="material-icons"
@@ -127,20 +128,12 @@
 							>add</IconButton
 						>
 					{/if}
-				</span>
+				</span> -->
+				<AchievementCell {year} {month} {day} achievement={achievementsMap.get(day)} {habit} />
 			</Cell>
 		{/each}
 	{/if}
 </Row>
 
 <style>
-	.day {
-		display: flex;
-		border-radius: 0.5rem;
-		padding: 0.125rem;
-	}
-
-	.achieved {
-		background-color: #6ecf6e;
-	}
 </style>

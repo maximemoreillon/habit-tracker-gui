@@ -30,7 +30,7 @@
 	});
 
 	// TODO: prevent seeing other users' habits
-	const getHabit = async () => {
+	async function getHabit() {
 		try {
 			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
 
@@ -41,9 +41,9 @@
 			alert(error);
 			console.error(error);
 		}
-	};
+	}
 
-	const deleteHabit = async () => {
+	async function deleteHabit() {
 		if (!confirm('Delete habit?')) return;
 		try {
 			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
@@ -55,9 +55,9 @@
 			alert(error);
 			console.error(error);
 		}
-	};
+	}
 
-	const updateHabit = async () => {
+	async function updateHabit() {
 		try {
 			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
 
@@ -68,12 +68,13 @@
 			alert(error);
 			console.error(error);
 		}
-	};
+	}
 </script>
 
 <h2>Habit</h2>
 {#if $currentUser}
 	{#if habit}
+		<!-- TODO: Improve layout -->
 		<p>
 			<Button type="submit" on:click={updateHabit}>
 				<Icon class="material-icons">save</Icon>
