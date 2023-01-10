@@ -4,8 +4,6 @@
 	import { Timestamp } from 'firebase/firestore';
 	import { onDestroy } from 'svelte';
 	import { currentUser } from '$lib/firebase';
-
-	import IconButton from '@smui/icon-button';
 	import { Row, Cell } from '@smui/data-table';
 	import {
 		collection,
@@ -58,8 +56,6 @@
 		// WARNING: january is 0
 		const startDate = new Date(year, month, 1);
 		const startTime = Timestamp.fromDate(startDate);
-		// TODO: find better way
-		// WARNING: january is 0
 		const endDate = new Date(year, month, 1);
 		endDate.setMonth(endDate.getMonth() + 1);
 		const endTime = Timestamp.fromDate(endDate);
@@ -78,62 +74,27 @@
 			}, new Map());
 		});
 	};
-
-	// TODO: have those two in a component
-	const createAchievement = async (habit: Habit, day: number) => {
-		// WARNING: january is 0
-		const date = new Date(year, month, day);
-		const time = Timestamp.fromDate(date);
-
-		try {
-			const newDoc = { time };
-			await addDoc(collectionRef, newDoc);
-		} catch (error) {
-			alert(error);
-			console.error(error);
-		}
-	};
-
-	const deleteAchievement = async (achievement: Achievement | undefined) => {
-		if (!achievement || !achievement.id) return;
-		try {
-			const docRef = doc(collectionRef, achievement.id);
-			await deleteDoc(docRef);
-		} catch (error) {
-			alert(error);
-			console.error(error);
-		}
-	};
-
-	// TODO: update of habit (title, description)
-	// This will be done the habit route
 </script>
 
-<Row>
-	<!-- TODO: allow editing of those -->
-	<Cell>
+<tr>
+	<td>
 		<a href={`/habits/${habit.id}`}>{habit.title}</a>
-	</Cell>
+	</td>
 	{#if achievementsMap}
 		{#each monthDays as day}
-			<Cell>
-				<!-- <span class:achieved={achievementsMap.get(day)} class="day">
-					{#if achievementsMap.get(day)}
-						<IconButton
-							class="material-icons"
-							on:click={() => deleteAchievement(achievementsMap.get(day))}>delete</IconButton
-						>
-					{:else}
-						<IconButton class="material-icons" on:click={() => createAchievement(habit, day)}
-							>add</IconButton
-						>
-					{/if}
-				</span> -->
+			<td>
 				<AchievementCell {year} {month} {day} achievement={achievementsMap.get(day)} {habit} />
-			</Cell>
+			</td>
 		{/each}
 	{/if}
-</Row>
+</tr>
 
 <style>
+	td:first-child {
+		padding-right: 1rem;
+		white-space: nowrap;
+	}
+	td:not(:first-child) {
+		text-align: center;
+	}
 </style>

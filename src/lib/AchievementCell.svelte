@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type Achievement from '$lib/types/achievement';
 	import type Habit from '$lib/types/habit';
-	import IconButton from '@smui/icon-button';
 	import { Timestamp } from 'firebase/firestore';
 	import { currentUser } from '$lib/firebase';
 	import { collection, getFirestore, doc, addDoc, deleteDoc } from 'firebase/firestore';
@@ -72,6 +71,7 @@
 		width: 2rem;
 		height: 2rem;
 		cursor: pointer;
+		margin: 0;
 	}
 
 	.achievement.achieved {

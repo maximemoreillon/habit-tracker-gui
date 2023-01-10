@@ -4,18 +4,9 @@
 	import { goto } from '$app/navigation';
 	import { currentUser } from '$lib/firebase';
 
-	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import type Habit from '$lib/types/habit';
-	import {
-		getFirestore,
-		collection,
-		doc,
-		getDoc,
-		deleteDoc,
-		updateDoc,
-		onSnapshot
-	} from 'firebase/firestore';
+	import { getFirestore, collection, doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 
 	const firestore = getFirestore();
 
@@ -85,8 +76,12 @@
 				<Label>Delete habit</Label>
 			</Button>
 		</p>
-		<Textfield bind:value={habit.title} label="Title" type="text" />
-		<Textfield bind:value={habit.description} label="Description" type="text" />
+		<p>
+			<Textfield bind:value={habit.title} label="Title" type="text" />
+		</p>
+		<p>
+			<Textfield bind:value={habit.description} label="Description" type="text" />
+		</p>
 	{/if}
 {:else}
 	<p>Only authenticated users can see this resource</p>

@@ -58,26 +58,27 @@
 	</p>
 
 	<!-- TODO: consider vertical layout for smartphones -->
+	<!-- TODO: consider using a normal <table> so as to have more control over padding and margins -->
 	<!-- Grid can probably not be used because number of column depends on number of days -->
-	<DataTable>
-		<Head>
-			<Row>
-				<Cell>Name</Cell>
+	<table>
+		<thead>
+			<tr>
+				<th />
 				{#each monthDays as day}
-					<Cell>
+					<th>
 						<span class:current={dayIsCurrentDay(day)} class="day">
 							{day}
 						</span>
-					</Cell>
+					</th>
 				{/each}
-			</Row>
-		</Head>
-		<Body>
+			</tr>
+		</thead>
+		<tbody>
 			{#each habits as habit}
 				<HabitRow {habit} {month} {year} />
 			{/each}
-		</Body>
-	</DataTable>
+		</tbody>
+	</table>
 {:else}
 	<p>This content is only accessible to authenticated users</p>
 {/if}
@@ -86,11 +87,14 @@
 	.day {
 		display: flex;
 		justify-content: center;
-		padding: 0.5rem;
 		border-radius: 0.5em;
 	}
 	.current {
 		background-color: orange;
+	}
+	table {
+		border-collapse: collapse;
+		width: 100%;
 	}
 	/* TODO: past and future days */
 </style>
