@@ -4,17 +4,7 @@
 	import { Timestamp } from 'firebase/firestore';
 	import { onDestroy } from 'svelte';
 	import { currentUser } from '$lib/firebase';
-	import { Row, Cell } from '@smui/data-table';
-	import {
-		collection,
-		getFirestore,
-		doc,
-		onSnapshot,
-		addDoc,
-		deleteDoc,
-		query,
-		where
-	} from 'firebase/firestore';
+	import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
 	import type { Unsubscribe } from 'firebase/firestore';
 
 	import AchievementCell from './AchievementCell.svelte';
@@ -35,7 +25,7 @@
 	// Watch changes
 	$: month, subscribeToData();
 	$: year, subscribeToData();
-	$: habit, subscribeToData();
+	$: habit, subscribeToData(); // Not useful
 
 	// Dirty
 	// TODO: reuse from parent
@@ -52,6 +42,8 @@
 
 	const subscribeToData = () => {
 		if (unsub) unsub();
+
+		achievementsMap = new Map(); // Not useful
 
 		// WARNING: january is 0
 		const startDate = new Date(year, month, 1);
