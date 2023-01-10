@@ -59,28 +59,38 @@
 	<!-- TODO: consider vertical layout for smartphones -->
 	<!-- TODO: consider using a normal <table> so as to have more control over padding and margins -->
 	<!-- Grid can probably not be used because number of column depends on number of days -->
-	<table>
-		<thead>
-			<tr>
-				<th />
-				{#each monthDays as day}
-					<th class:current={dayIsCurrentDay(day)}>
-						{day}
-					</th>
+	<div class="table_wrapper">
+		<table>
+			<thead>
+				<tr>
+					<th />
+					{#each monthDays as day}
+						<th class:current={dayIsCurrentDay(day)}>
+							{day}
+						</th>
+					{/each}
+				</tr>
+			</thead>
+			<tbody>
+				{#each habits as habit}
+					<HabitRow {habit} {month} {year} />
 				{/each}
-			</tr>
-		</thead>
-		<tbody>
-			{#each habits as habit}
-				<HabitRow {habit} {month} {year} />
-			{/each}
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 {:else}
 	<p>This content is only accessible to authenticated users</p>
 {/if}
 
 <style>
+	.table_wrapper {
+		width: 100%;
+		overflow-x: auto;
+	}
+	table {
+		border-collapse: collapse;
+		min-width: 100%;
+	}
 	th {
 		/* display: flex;
 		justify-content: center; */
@@ -88,10 +98,6 @@
 	}
 	.current {
 		background-color: orange;
-	}
-	table {
-		border-collapse: collapse;
-		width: 100%;
 	}
 
 	tr:not(:last-child) .current {
