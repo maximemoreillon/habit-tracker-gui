@@ -31,6 +31,9 @@
 	// TODO: reuse from parent
 	$: monthDays = [...Array(new Date(year, month, 0).getDate()).keys()].map((d) => d + 1);
 
+	const dayIsCurrentDay = (day: number) =>
+		new Date(year, month, day).toDateString() === new Date().toDateString();
+
 	const collectionRef = collection(
 		firestore,
 		'users',
@@ -74,7 +77,7 @@
 	</td>
 	{#if achievementsMap}
 		{#each monthDays as day}
-			<td>
+			<td class:current={dayIsCurrentDay(day)}>
 				<AchievementCell {year} {month} {day} achievement={achievementsMap.get(day)} {habit} />
 			</td>
 		{/each}
@@ -88,5 +91,12 @@
 	}
 	td:not(:first-child) {
 		text-align: center;
+	}
+
+	.current {
+		background-color: orange;
+	}
+	tr:last-child .current {
+		border-radius: 0 0 0.5em 0.5rem;
 	}
 </style>

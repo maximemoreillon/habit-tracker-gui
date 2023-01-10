@@ -37,7 +37,6 @@
 		if (unsub) unsub();
 	});
 
-	// TODO: take month and year into account
 	const dayIsCurrentDay = (day: number) =>
 		new Date(year, month, day).toDateString() === new Date().toDateString();
 </script>
@@ -65,10 +64,8 @@
 			<tr>
 				<th />
 				{#each monthDays as day}
-					<th>
-						<span class:current={dayIsCurrentDay(day)} class="day">
-							{day}
-						</span>
+					<th class:current={dayIsCurrentDay(day)}>
+						{day}
 					</th>
 				{/each}
 			</tr>
@@ -84,10 +81,10 @@
 {/if}
 
 <style>
-	.day {
-		display: flex;
-		justify-content: center;
-		border-radius: 0.5em;
+	th {
+		/* display: flex;
+		justify-content: center; */
+		border-radius: 0.5em 0.5rem 0 0;
 	}
 	.current {
 		background-color: orange;
@@ -95,6 +92,10 @@
 	table {
 		border-collapse: collapse;
 		width: 100%;
+	}
+
+	tr:not(:last-child) .current {
+		background-color: orange;
 	}
 	/* TODO: past and future days */
 </style>
