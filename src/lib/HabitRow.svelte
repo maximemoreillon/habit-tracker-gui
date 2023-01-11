@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type Habit from '$lib/types/habit';
 	import type Achievement from '$lib/types/achievement';
+	import type { Unsubscribe } from 'firebase/firestore';
 	import { Timestamp } from 'firebase/firestore';
 	import { onDestroy } from 'svelte';
 	import { currentUser } from '$lib/firebase';
 	import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
-	import type { Unsubscribe } from 'firebase/firestore';
 
 	import AchievementCell from './AchievementCell.svelte';
 
@@ -14,6 +14,8 @@
 	export let year: number;
 
 	let unsub: Unsubscribe;
+
+	// Problem here as achievementMap potentially holds data from another habit
 	let achievementsMap: Map<number, Achievement>;
 
 	const firestore = getFirestore();
@@ -25,7 +27,6 @@
 	// Watch changes
 	$: month, subscribeToData();
 	$: year, subscribeToData();
-	$: habit, subscribeToData(); // Not useful
 
 	// Dirty
 	// TODO: reuse from parent
@@ -46,8 +47,6 @@
 	const subscribeToData = () => {
 		if (unsub) unsub();
 
-		achievementsMap = new Map(); // Not useful
-
 		// WARNING: january is 0
 		const startDate = new Date(year, month, 1);
 		const startTime = Timestamp.fromDate(startDate);
@@ -59,7 +58,7 @@
 
 		unsub = onSnapshot(q, (collection) => {
 			achievementsMap = collection.docs.reduce((prev, doc) => {
-				// Still not ideal because might want to have a view for weeks
+				// TODO: find way to deal with week view
 				const achievement = doc.data();
 				const day = achievement.time.toDate().getDate();
 
@@ -86,7 +85,7 @@
 
 <style>
 	td:first-child {
-		padding-right: 1rem;
+		padding-right: 0.5rem;
 		white-space: nowrap;
 	}
 	td:not(:first-child) {

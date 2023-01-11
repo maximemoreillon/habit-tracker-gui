@@ -72,7 +72,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each habits as habit}
+				<!-- NOTE: using id as key -->
+				{#each habits as habit (habit.id)}
 					<HabitRow {habit} {month} {year} />
 				{/each}
 			</tbody>
