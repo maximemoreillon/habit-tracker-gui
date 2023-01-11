@@ -62,9 +62,7 @@
 	on:click={() => {
 		achievementClicked();
 	}}
->
-	{habit.title}
-</button>
+/>
 
 <style>
 	.achievement {
