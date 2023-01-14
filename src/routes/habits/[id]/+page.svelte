@@ -5,7 +5,7 @@
 	import { currentUser } from '$lib/firebase';
 
 	import { page } from '$app/stores';
-	import type Habit from '$lib/types/habit';
+	import type Habit from '$lib/habit';
 	import { getFirestore, collection, doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 
 	const firestore = getFirestore();

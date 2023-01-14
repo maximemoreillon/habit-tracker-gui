@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type Habit from '$lib/types/habit';
-	import type Achievement from '$lib/types/achievement';
+	import type Habit from '$lib/habit';
+	import type Achievement from '$lib/achievement';
 	import type { Unsubscribe } from 'firebase/firestore';
 	import { Timestamp } from 'firebase/firestore';
 	import { onDestroy } from 'svelte';

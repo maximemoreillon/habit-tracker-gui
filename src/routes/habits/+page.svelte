@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type Habit from '$lib/types/habit';
+	import type Habit from '$lib/habit';
 	import type { Unsubscribe } from 'firebase/firestore';
 
 	import { currentUser } from '$lib/firebase';

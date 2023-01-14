@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type Achievement from '$lib/types/achievement';
-	import type Habit from '$lib/types/habit';
+	import type Achievement from '$lib/achievement';
+	import type Habit from '$lib/habit';
 	import { Timestamp } from 'firebase/firestore';
 	import { currentUser } from '$lib/firebase';
 	import { collection, getFirestore, doc, addDoc, deleteDoc } from 'firebase/firestore';
