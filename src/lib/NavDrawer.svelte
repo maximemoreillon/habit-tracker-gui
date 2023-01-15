@@ -4,8 +4,7 @@
 	export let open = false;
 
 	const links = [
-		{ text: 'Home', href: '/', icon: 'home' },
-		{ text: 'Habits', href: '/habits', icon: 'list' },
+		{ text: 'Habits', href: '/', icon: 'list' },
 		{ text: 'Login', href: '/login', icon: 'login' },
 		{ text: 'Register', href: '/register', icon: 'person_add' }
 	];

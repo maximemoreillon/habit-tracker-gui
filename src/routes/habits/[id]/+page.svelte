@@ -1,7 +1,9 @@
 <script lang="ts">
 	import Textfield from '@smui/textfield';
 	import Button, { Label, Icon } from '@smui/button';
+
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 	import { currentUser } from '$lib/firebase';
 
 	import { page } from '$app/stores';
@@ -13,15 +15,16 @@
 	let habit: Habit;
 	const { id } = $page.params;
 
-	// TODO: subscribe to current user so as to run only when user data is available
-
-	currentUser.subscribe((user) => {
-		if (!user) return;
-		getHabit();
+	// TODO: find better way
+	onMount(() => {
+		currentUser.subscribe((user) => {
+			if (user === null) goto('/login');
+			getHabit();
+		});
 	});
 
-	// TODO: prevent seeing other users' habits
 	async function getHabit() {
+		if (!$currentUser) return;
 		try {
 			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
 
