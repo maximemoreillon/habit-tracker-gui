@@ -13,6 +13,7 @@
 	import HabitRow from '$lib/HabitRow.svelte';
 	import NewHabitDialog from '$lib/NewHabitDialog.svelte';
 	import { onMount } from 'svelte';
+	import type { User } from 'firebase/auth';
 
 	const firestore = getFirestore();
 
@@ -29,15 +30,18 @@
 		currentUser.subscribe((user) => {
 			if (user === null) goto('/login');
 			if (!user) return;
-
-			const collectionRef = collection(firestore, 'users', user.uid, 'habits');
-			// TODO: check if data gets updated if another user updates his habits
-			unsub = onSnapshot(collectionRef, (collection) => {
-				// TODO: fix typescript typing
-				habits = collection.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-			});
+			subScribeToCollection(user);
 		});
 	});
+
+	function subScribeToCollection(user: User) {
+		const collectionRef = collection(firestore, 'users', user.uid, 'habits');
+		// TODO: check if data gets updated if another user updates his habits
+		unsub = onSnapshot(collectionRef, (collection) => {
+			// TODO: fix typescript typing
+			habits = collection.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+		});
+	}
 
 	onDestroy(() => {
 		if (unsub) unsub();
