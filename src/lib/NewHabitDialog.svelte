@@ -11,6 +11,7 @@
 	let newHabit = { title: '', description: '' };
 
 	const createItem = async () => {
+		if (!$currentUser) return;
 		try {
 			const firestore = getFirestore();
 			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');

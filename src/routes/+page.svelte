@@ -38,8 +38,7 @@
 		const collectionRef = collection(firestore, 'users', user.uid, 'habits');
 		// TODO: check if data gets updated if another user updates his habits
 		unsub = onSnapshot(collectionRef, (collection) => {
-			// TODO: fix typescript typing
-			habits = collection.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+			habits = collection.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Habit[];
 		});
 	}
 

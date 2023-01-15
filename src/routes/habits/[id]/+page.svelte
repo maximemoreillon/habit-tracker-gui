@@ -30,7 +30,7 @@
 
 			const docRef = doc(collectionRef, id);
 			const docSnap = await getDoc(docRef);
-			habit = docSnap.data();
+			habit = docSnap.data() as Habit;
 		} catch (error) {
 			alert(error);
 			console.error(error);
@@ -38,6 +38,7 @@
 	}
 
 	async function deleteHabit() {
+		if (!$currentUser) return;
 		if (!confirm('Delete habit?')) return;
 		try {
 			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
@@ -52,11 +53,13 @@
 	}
 
 	async function updateHabit() {
+		if (!$currentUser) return;
 		try {
 			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
 
 			const docRef = doc(collectionRef, id);
-			await updateDoc(docRef, habit);
+			// TODO: Find correct type
+			await updateDoc(docRef, habit as any);
 			alert('Habit updated successfully');
 		} catch (error) {
 			alert(error);
