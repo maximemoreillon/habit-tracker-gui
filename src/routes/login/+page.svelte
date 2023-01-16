@@ -29,8 +29,6 @@
 	};
 </script>
 
-<h2>Login</h2>
-
 {#if $currentUser}
 	<p>Logged in as {$currentUser.email}</p>
 	<Button on:click={logout}>
@@ -39,6 +37,8 @@
 	</Button>
 {:else}
 	<form on:submit|preventDefault={login}>
+		<h2>Login</h2>
+
 		<Textfield bind:value={email} label="E-mail">
 			<Icon class="material-icons" slot="leadingIcon">person</Icon>
 		</Textfield>
