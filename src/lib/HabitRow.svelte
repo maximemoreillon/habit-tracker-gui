@@ -15,7 +15,6 @@
 
 	let unsub: Unsubscribe;
 
-	// Problem here as achievementMap potentially holds data from another habit
 	let achievementsMap: Map<number, Achievement>;
 
 	const firestore = getFirestore();
@@ -35,16 +34,8 @@
 	const dayIsCurrentDay = (day: number) =>
 		new Date(year, month, day).toDateString() === new Date().toDateString();
 
-	const collectionRef = collection(
-		firestore,
-		'users',
-		$currentUser.uid,
-		'habits',
-		habit.id,
-		'achievements'
-	);
-
 	const subscribeToData = () => {
+		if (!$currentUser) return;
 		if (unsub) unsub();
 
 		// WARNING: january is 0
@@ -53,6 +44,15 @@
 		const endDate = new Date(year, month, 1);
 		endDate.setMonth(endDate.getMonth() + 1);
 		const endTime = Timestamp.fromDate(endDate);
+
+		const collectionRef = collection(
+			firestore,
+			'users',
+			$currentUser.uid,
+			'habits',
+			habit.id,
+			'achievements'
+		);
 
 		const q = query(collectionRef, where('time', '>=', startTime), where('time', '<', endTime));
 
