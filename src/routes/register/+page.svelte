@@ -18,7 +18,7 @@
 		loading = true;
 		try {
 			await createUserWithEmailAndPassword(auth, email, password);
-			goto('/home');
+			goto('/');
 		} catch (error) {
 			alert(error);
 			console.error(error);

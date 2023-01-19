@@ -4,6 +4,7 @@
 	import Icon from '@smui/textfield/icon';
 	import Button, { Label, Icon as BtnIcon } from '@smui/button';
 
+	import { goto } from '$app/navigation';
 	import { currentUser } from '$lib/firebase';
 	import { signInWithEmailAndPassword, getAuth, signOut } from 'firebase/auth';
 
@@ -16,6 +17,7 @@
 		loggingIn = true;
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
+			goto('/');
 		} catch (error) {
 			alert(error);
 			console.error(error);
