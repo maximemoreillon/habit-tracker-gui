@@ -7,7 +7,7 @@
 	import { currentUser } from '$lib/firebase';
 	import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
 
-	import AchievementCell from './AchievementCell.svelte';
+	import AchievementCell from './AchievementButton.svelte';
 
 	export let habit: Habit;
 	export let month: number;
@@ -73,12 +73,12 @@
 </script>
 
 <tr>
-	<td>
+	<td class="habit">
 		<a href={`/habits/${habit.id}`}>{habit.title}</a>
 	</td>
 	{#if achievementsMap}
 		{#each monthDays as day}
-			<td class:current={dayIsCurrentDay(day)} class:past={dayIsPast(day)}>
+			<td class="achievement" class:current={dayIsCurrentDay(day)} class:past={dayIsPast(day)}>
 				<AchievementCell {year} {month} {day} achievement={achievementsMap.get(day)} {habit} />
 			</td>
 		{/each}
@@ -86,22 +86,25 @@
 </tr>
 
 <style>
-	td:first-child {
+	.habit {
 		padding-right: 0.5rem;
 		white-space: nowrap;
 	}
-	td:not(:first-child) {
-		text-align: center;
-	}
 
-	.current {
-		background-color: orange;
+	.achievement {
+		line-height: 0;
+		padding: 0.25rem;
 	}
 
 	.past {
-		background-color: #cccccc;
+		background-color: #fed994;
 	}
+
+	.current {
+		background-color: #ffa500;
+	}
+
 	tr:last-child .current {
-		border-radius: 0 0 0.5em 0.5rem;
+		border-radius: 0 0 0.5em 0.5em;
 	}
 </style>

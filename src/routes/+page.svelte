@@ -50,7 +50,7 @@
 		new Date(year, month, day).toDateString() === new Date().toDateString();
 </script>
 
-<!-- <h2>Habits</h2> -->
+<h2>Habits</h2>
 
 <Textfield bind:value={year} label="Year" type="number" />
 <Select bind:value={month} label="Month">
@@ -122,7 +122,7 @@
 		background-color: white;
 	}
 
-	table :global(tr:hover) {
-		background-color: #89c4e6 !important;
+	table :global(tr:hover td) {
+		background-color: #ffca81 !important;
 	}
 </style>
