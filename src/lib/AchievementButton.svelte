@@ -69,7 +69,7 @@
 
 <style>
 	.achievement {
-		background-color: transparent;
+		background-color: white;
 		border: 1px solid #bbbbbb;
 		border-radius: 0.5rem;
 		width: 2rem;

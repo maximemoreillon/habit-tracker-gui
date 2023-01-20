@@ -87,7 +87,7 @@
 
 <style>
 	.habit {
-		padding-right: 0.5rem;
+		padding-inline: 0.5rem;
 		white-space: nowrap;
 	}
 

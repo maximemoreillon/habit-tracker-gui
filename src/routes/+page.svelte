@@ -117,12 +117,16 @@
 		border-radius: 0 0 0.5rem 0.5rem;
 	}
 
-	table :global(.past) {
-		/* background-color: #f7eae6; */
-	}
-
 	table :global(tr:hover td) {
 		background-color: #ffe2d8;
+	}
+
+	table :global(tr:hover td:last-child) {
+		border-radius: 0 0.5rem 0.5rem 0;
+	}
+
+	table :global(tr:hover td:first-child) {
+		border-radius: 0.5rem 0 0 0.5rem;
 	}
 
 	table :global(:is(th, td):first-child) {
