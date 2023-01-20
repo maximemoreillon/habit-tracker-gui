@@ -34,6 +34,8 @@
 	const dayIsCurrentDay = (day: number) =>
 		new Date(year, month, day).toDateString() === new Date().toDateString();
 
+	const dayIsPast = (day: number) => new Date(year, month, day + 1) < new Date();
+
 	const subscribeToData = () => {
 		if (!$currentUser) return;
 		if (unsub) unsub();
@@ -76,7 +78,7 @@
 	</td>
 	{#if achievementsMap}
 		{#each monthDays as day}
-			<td class:current={dayIsCurrentDay(day)}>
+			<td class:current={dayIsCurrentDay(day)} class:past={dayIsPast(day)}>
 				<AchievementCell {year} {month} {day} achievement={achievementsMap.get(day)} {habit} />
 			</td>
 		{/each}
@@ -94,6 +96,10 @@
 
 	.current {
 		background-color: orange;
+	}
+
+	.past {
+		background-color: #cccccc;
 	}
 	tr:last-child .current {
 		border-radius: 0 0 0.5em 0.5rem;

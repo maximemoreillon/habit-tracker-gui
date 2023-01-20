@@ -50,7 +50,7 @@
 		new Date(year, month, day).toDateString() === new Date().toDateString();
 </script>
 
-<h2>Habits</h2>
+<!-- <h2>Habits</h2> -->
 
 <Textfield bind:value={year} label="Year" type="number" />
 <Select bind:value={month} label="Month">
@@ -96,12 +96,13 @@
 	.table_wrapper {
 		width: 100%;
 		overflow-x: auto;
+		position: relative;
 	}
 	table {
 		border-collapse: collapse;
 		min-width: 100%;
 	}
-	th {
+	th:not(:first-child) {
 		/* display: flex;
 		justify-content: center; */
 		border-radius: 0.5em 0.5rem 0 0;
@@ -113,5 +114,15 @@
 	tr:not(:last-child) .current {
 		background-color: orange;
 	}
-	/* TODO: past and future days */
+
+	table :global(:is(th, td):first-child) {
+		position: sticky;
+		left: 0;
+		z-index: 2;
+		background-color: white;
+	}
+
+	table :global(tr:hover) {
+		background-color: #89c4e6 !important;
+	}
 </style>
