@@ -5,15 +5,13 @@
 
 	const links = [
 		{ text: 'Habits', href: '/', icon: 'list' },
-		{ text: 'Login', href: '/login', icon: 'login' },
+		{ text: 'Login', href: '/login', icon: 'login' }
 	];
 </script>
 
 <Drawer variant="modal" bind:open fixed={false}>
 	<Header>
 		<Title>Habit tracker</Title>
-		<!-- TODO: Get actual version -->
-		<Subtitle>v0.0.1</Subtitle>
 	</Header>
 	<Content>
 		<List>

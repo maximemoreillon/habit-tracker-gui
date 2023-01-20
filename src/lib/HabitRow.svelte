@@ -31,7 +31,7 @@
 	// TODO: reuse from parent
 	$: monthDays = [...Array(new Date(year, month, 0).getDate()).keys()].map((d) => d + 1);
 
-	const dayIsCurrentDay = (day: number) =>
+	const dayIsCurrent = (day: number) =>
 		new Date(year, month, day).toDateString() === new Date().toDateString();
 
 	const dayIsPast = (day: number) => new Date(year, month, day + 1) < new Date();
@@ -78,7 +78,7 @@
 	</td>
 	{#if achievementsMap}
 		{#each monthDays as day}
-			<td class="achievement" class:current={dayIsCurrentDay(day)} class:past={dayIsPast(day)}>
+			<td class="achievement" class:current={dayIsCurrent(day)} class:past={dayIsPast(day)}>
 				<AchievementCell {year} {month} {day} achievement={achievementsMap.get(day)} {habit} />
 			</td>
 		{/each}
@@ -94,17 +94,5 @@
 	.achievement {
 		line-height: 0;
 		padding: 0.25rem;
-	}
-
-	.past {
-		background-color: #fed994;
-	}
-
-	.current {
-		background-color: #ffa500;
-	}
-
-	tr:last-child .current {
-		border-radius: 0 0 0.5em 0.5em;
 	}
 </style>

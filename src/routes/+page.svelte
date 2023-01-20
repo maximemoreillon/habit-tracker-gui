@@ -46,8 +46,10 @@
 		if (unsub) unsub();
 	});
 
-	const dayIsCurrentDay = (day: number) =>
+	const dayIsCurrent = (day: number) =>
 		new Date(year, month, day).toDateString() === new Date().toDateString();
+
+	const dayIsPast = (day: number) => new Date(year, month, day + 1) < new Date();
 </script>
 
 <h2>Habits</h2>
@@ -66,7 +68,6 @@
 	</p>
 
 	<!-- TODO: consider vertical layout for smartphones -->
-	<!-- TODO: consider using a normal <table> so as to have more control over padding and margins -->
 	<!-- Grid can probably not be used because number of column depends on number of days -->
 	<div class="table_wrapper">
 		<table>
@@ -74,7 +75,7 @@
 				<tr>
 					<th />
 					{#each monthDays as day}
-						<th class:current={dayIsCurrentDay(day)}>
+						<th class="day" class:current={dayIsCurrent(day)} class:past={dayIsPast(day)}>
 							{day}
 						</th>
 					{/each}
@@ -102,17 +103,26 @@
 		border-collapse: collapse;
 		min-width: 100%;
 	}
-	th:not(:first-child) {
-		/* display: flex;
-		justify-content: center; */
-		border-radius: 0.5em 0.5rem 0 0;
-	}
-	.current {
-		background-color: orange;
+
+	table :global(.current) {
+		background-color: #ff3e00 !important;
+		color: white;
 	}
 
-	tr:not(:last-child) .current {
-		background-color: orange;
+	table :global(thead .current) {
+		border-radius: 0.5rem 0.5em 0 0;
+	}
+
+	table :global(tbody tr:last-child .current) {
+		border-radius: 0 0 0.5rem 0.5rem;
+	}
+
+	table :global(.past) {
+		/* background-color: #f7eae6; */
+	}
+
+	table :global(tr:hover td) {
+		background-color: #ffe2d8;
 	}
 
 	table :global(:is(th, td):first-child) {
@@ -120,9 +130,5 @@
 		left: 0;
 		z-index: 2;
 		background-color: white;
-	}
-
-	table :global(tr:hover td) {
-		background-color: #ffca81 !important;
 	}
 </style>

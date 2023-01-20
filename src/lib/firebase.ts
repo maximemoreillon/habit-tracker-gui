@@ -13,8 +13,6 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 export const currentUser = writable<User | null>();
-// Not sure if this is the right  approach
-export const authPending = writable<boolean>(true);
 
 const auth = getAuth();
 

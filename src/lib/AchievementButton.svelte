@@ -69,7 +69,8 @@
 
 <style>
 	.achievement {
-		border: 1px solid #dddddd;
+		background-color: transparent;
+		border: 1px solid #bbbbbb;
 		border-radius: 0.5rem;
 		width: 2rem;
 		height: 2rem;
@@ -78,6 +79,6 @@
 	}
 
 	.achievement.achieved {
-		background-color: mediumseagreen;
+		background-color: green;
 	}
 </style>
