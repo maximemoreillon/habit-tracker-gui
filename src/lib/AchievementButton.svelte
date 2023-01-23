@@ -72,8 +72,8 @@
 		background-color: white;
 		border: 1px solid #bbbbbb;
 		border-radius: 0.5rem;
-		width: 2rem;
-		height: 2rem;
+		width: 1.5rem;
+		height: 1.5rem;
 		cursor: pointer;
 		margin: 0;
 	}

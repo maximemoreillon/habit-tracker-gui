@@ -94,5 +94,6 @@
 	.achievement {
 		line-height: 0;
 		padding: 0.25rem;
+		text-align: center;
 	}
 </style>
