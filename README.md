@@ -16,6 +16,6 @@ npm run dev
 - [ ] Weekly, monthly, yearly views
 - [x] Get actual length of the selected month
 - [ ] i18n
-- [ ] Redirect unauthenticated users to Login page
-- [ ] Update and delete habits
+- [x] Redirect unauthenticated users to Login page
+- [x] Update and delete habits
 - [ ] PWA
