@@ -28,7 +28,7 @@
 	$: year, subscribeToData();
 
 	// Dirty
-	// TODO: reuse from parent
+	// TODO: find way to reuse
 	$: monthDays = [...Array(new Date(year, month, 0).getDate()).keys()].map((d) => d + 1);
 
 	const dayIsCurrent = (day: number) =>

@@ -24,11 +24,10 @@
 		'achievements'
 	);
 
-	const dayIsPast = (day: number) => new Date(year, month, day + 1) < new Date();
+	const dayIsPast = () => new Date(year, month, day + 1) < new Date();
 
 	const createAchievement = async () => {
 		// WARNING: january is 0
-		// TODO: Date could  be passed as prop
 		const date = new Date(year, month, day);
 		const time = Timestamp.fromDate(date);
 
@@ -60,7 +59,7 @@
 
 <button
 	class="achievement"
-	class:past={dayIsPast(day)}
+	class:past={dayIsPast()}
 	class:achieved={!!achievement}
 	on:click={() => {
 		achievementClicked();
