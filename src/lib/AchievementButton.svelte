@@ -78,6 +78,6 @@
 	}
 
 	.achievement.achieved {
-		background-color: green;
+		background-color: #c00000;
 	}
 </style>

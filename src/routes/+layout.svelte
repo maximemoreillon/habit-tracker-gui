@@ -14,10 +14,11 @@
 
 <NavDrawer bind:open />
 <AppContent>
-	<TopAppBar bind:this={topAppBar} variant="fixed">
+	<TopAppBar bind:this={topAppBar} variant="fixed" color="secondary">
 		<Row>
 			<Section>
 				<IconButton class="material-icons" on:click={() => (open = !open)}>menu</IconButton>
+				<img class="logo" src="/logo.png" alt="" />
 				<Title>Habit tracker</Title>
 			</Section>
 		</Row>
@@ -32,3 +33,24 @@
 		</main>
 	</AutoAdjust>
 </AppContent>
+
+<style>
+	.logo {
+		height: 2.5em;
+		widows: 2.5em;
+
+		animation-name: rotating_logo;
+		animation-duration: 60s;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite;
+	}
+
+	@keyframes rotating_logo {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+</style>

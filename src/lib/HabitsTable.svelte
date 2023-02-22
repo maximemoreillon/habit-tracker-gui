@@ -48,7 +48,7 @@
 	}
 
 	table :global(.current) {
-		background-color: #ff3e00 !important;
+		background-color: #44444488 !important;
 		color: white;
 	}
 
@@ -61,7 +61,7 @@
 	}
 
 	table :global(tr:hover td) {
-		background-color: #ffe2d8;
+		background-color: #44444422;
 	}
 
 	table :global(tr:hover td:last-child) {

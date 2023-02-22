@@ -44,12 +44,12 @@
 
 <h2>Habits</h2>
 
-<MonthSelector bind:month bind:year />
-
 {#if $currentUser}
-	<p>
+	<div class="tools">
+		<MonthSelector bind:month bind:year />
+		<div class="spacer" />
 		<NewHabitDialog />
-	</p>
+	</div>
 
 	<!-- TODO: consider vertical layout for smartphones -->
 	<!-- Grid can probably not be used because number of column depends on number of days -->
@@ -57,3 +57,15 @@
 {:else}
 	<p>This content is only accessible to authenticated users</p>
 {/if}
+
+<style>
+	.tools {
+		display: flex;
+		align-items: center;
+		margin-bottom: 2rem;
+	}
+
+	.spacer {
+		flex-grow: 1;
+	}
+</style>

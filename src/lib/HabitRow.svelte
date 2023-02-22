@@ -73,8 +73,8 @@
 </script>
 
 <tr>
-	<td class="habit">
-		<a href={`/habits/${habit.id}`}>{habit.title}</a>
+	<td>
+		<a class="habit" href={`/habits/${habit.id}`}>{habit.title}</a>
 	</td>
 	{#if achievementsMap}
 		{#each monthDays as day}
@@ -89,6 +89,11 @@
 	.habit {
 		padding-inline: 0.5rem;
 		white-space: nowrap;
+		/* 
+		font-weight: bold;
+		color: inherit;
+		text-decoration: none;
+		 */
 	}
 
 	.achievement {
