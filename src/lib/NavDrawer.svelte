@@ -4,18 +4,14 @@
 	export let open = false;
 
 	const links = [
-		{ text: 'Home', href: '/', icon: 'home' },
-		{ text: 'Habits', href: '/habits', icon: 'list' },
-		{ text: 'Login', href: '/login', icon: 'login' },
-		{ text: 'Register', href: '/register', icon: 'person_add' }
+		{ text: 'Habits', href: '/', icon: 'list' },
+		{ text: 'Login', href: '/login', icon: 'login' }
 	];
 </script>
 
 <Drawer variant="modal" bind:open fixed={false}>
 	<Header>
 		<Title>Habit tracker</Title>
-		<!-- TODO: try to get actual version -->
-		<Subtitle>v0.0.1</Subtitle>
 	</Header>
 	<Content>
 		<List>

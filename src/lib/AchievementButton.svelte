@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type Achievement from '$lib/types/achievement';
-	import type Habit from '$lib/types/habit';
+	import type Achievement from '$lib/achievement';
+	import type Habit from '$lib/habit';
 	import { Timestamp } from 'firebase/firestore';
 	import { currentUser } from '$lib/firebase';
 	import { collection, getFirestore, doc, addDoc, deleteDoc } from 'firebase/firestore';
@@ -24,9 +24,10 @@
 		'achievements'
 	);
 
+	const dayIsPast = () => new Date(year, month, day + 1) < new Date();
+
 	const createAchievement = async () => {
 		// WARNING: january is 0
-		// TODO: Date could  be passed as prop
 		const date = new Date(year, month, day);
 		const time = Timestamp.fromDate(date);
 
@@ -58,6 +59,7 @@
 
 <button
 	class="achievement"
+	class:past={dayIsPast()}
 	class:achieved={!!achievement}
 	on:click={() => {
 		achievementClicked();
@@ -66,15 +68,16 @@
 
 <style>
 	.achievement {
-		border: 1px solid #dddddd;
+		background-color: white;
+		border: 1px solid #bbbbbb;
 		border-radius: 0.5rem;
-		width: 2rem;
-		height: 2rem;
+		width: 1.5rem;
+		height: 1.5rem;
 		cursor: pointer;
 		margin: 0;
 	}
 
 	.achievement.achieved {
-		background-color: mediumseagreen;
+		background-color: green;
 	}
 </style>

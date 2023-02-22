@@ -4,6 +4,8 @@
 	import TopAppBar, { Row, Section, Title, AutoAdjust } from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
 	import { AppContent } from '@smui/drawer';
+
+	import { currentUser } from '$lib/firebase';
 	import NavDrawer from '$lib/NavDrawer.svelte';
 
 	let topAppBar: TopAppBar;
@@ -22,7 +24,11 @@
 	</TopAppBar>
 	<AutoAdjust {topAppBar}>
 		<main>
-			<slot />
+			{#if $currentUser === undefined}
+				<p>Waiting for authentication</p>
+			{:else}
+				<slot />
+			{/if}
 		</main>
 	</AutoAdjust>
 </AppContent>

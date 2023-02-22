@@ -1,4 +1,4 @@
-import { getAuth } from 'firebase/auth';
+import { getAuth, type User } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { writable } from 'svelte/store';
 
@@ -12,8 +12,10 @@ const firebaseConfig = {
 };
 initializeApp(firebaseConfig);
 
-export const currentUser = writable<any>(null);
+export const currentUser = writable<User | null>();
 
-getAuth().onAuthStateChanged((user) => {
+const auth = getAuth();
+
+auth.onAuthStateChanged((user) => {
 	currentUser.set(user);
 });

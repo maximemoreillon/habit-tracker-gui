@@ -18,7 +18,7 @@
 		loading = true;
 		try {
 			await createUserWithEmailAndPassword(auth, email, password);
-			goto('/home');
+			goto('/');
 		} catch (error) {
 			alert(error);
 			console.error(error);
@@ -28,12 +28,12 @@
 	};
 </script>
 
-<h2>Register</h2>
-
 {#if $currentUser}
 	<p>Logged in as {$currentUser.email}</p>
 {:else}
 	<form on:submit|preventDefault={register}>
+		<h2>Register</h2>
+
 		<Textfield bind:value={email} label="E-mail">
 			<Icon class="material-icons" slot="leadingIcon">person</Icon>
 		</Textfield>

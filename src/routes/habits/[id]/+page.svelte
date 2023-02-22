@@ -1,33 +1,44 @@
 <script lang="ts">
+	import type Habit from '$lib/habit';
+
 	import Textfield from '@smui/textfield';
 	import Button, { Label, Icon } from '@smui/button';
+
+	import HabitsTable from '$lib/HabitsTable.svelte';
+	import MonthSelector from '$lib/MonthSelector.svelte';
+
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 	import { currentUser } from '$lib/firebase';
 
 	import { page } from '$app/stores';
-	import type Habit from '$lib/types/habit';
 	import { getFirestore, collection, doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 
 	const firestore = getFirestore();
 
 	let habit: Habit;
+	let month = new Date().getMonth();
+	let year = new Date().getFullYear();
+
 	const { id } = $page.params;
 
-	// TODO: subscribe to current user so as to run only when user data is available
-
-	currentUser.subscribe((user) => {
-		if (!user) return;
-		getHabit();
+	// TODO: find better way
+	onMount(() => {
+		currentUser.subscribe((user) => {
+			if (user === null) goto('/login');
+			getHabit();
+		});
 	});
 
-	// TODO: prevent seeing other users' habits
 	async function getHabit() {
+		if (!$currentUser) return;
 		try {
 			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
 
 			const docRef = doc(collectionRef, id);
 			const docSnap = await getDoc(docRef);
-			habit = docSnap.data();
+			// Adding id to be consistent with schema
+			habit = { id, ...docSnap.data() } as Habit;
 		} catch (error) {
 			alert(error);
 			console.error(error);
@@ -35,6 +46,7 @@
 	}
 
 	async function deleteHabit() {
+		if (!$currentUser) return;
 		if (!confirm('Delete habit?')) return;
 		try {
 			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
@@ -49,11 +61,13 @@
 	}
 
 	async function updateHabit() {
+		if (!$currentUser) return;
 		try {
 			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
 
 			const docRef = doc(collectionRef, id);
-			await updateDoc(docRef, habit);
+			// TODO: Find correct type
+			await updateDoc(docRef, habit as any);
 			alert('Habit updated successfully');
 		} catch (error) {
 			alert(error);
@@ -76,12 +90,21 @@
 				<Label>Delete habit</Label>
 			</Button>
 		</p>
+
 		<p>
 			<Textfield bind:value={habit.title} label="Title" type="text" />
 		</p>
 		<p>
 			<Textfield bind:value={habit.description} label="Description" type="text" />
 		</p>
+
+		<h4>Achievements</h4>
+		<p>
+			<MonthSelector bind:month bind:year />
+		</p>
+
+		<!-- TODO: do not show the habit name column in this page -->
+		<HabitsTable {month} {year} habits={[habit]} />
 	{/if}
 {:else}
 	<p>Only authenticated users can see this resource</p>

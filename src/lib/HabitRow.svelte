@@ -1,13 +1,13 @@
 <script lang="ts">
-	import type Habit from '$lib/types/habit';
-	import type Achievement from '$lib/types/achievement';
+	import type Habit from '$lib/habit';
+	import type Achievement from '$lib/achievement';
 	import type { Unsubscribe } from 'firebase/firestore';
 	import { Timestamp } from 'firebase/firestore';
 	import { onDestroy } from 'svelte';
 	import { currentUser } from '$lib/firebase';
 	import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
 
-	import AchievementCell from './AchievementCell.svelte';
+	import AchievementCell from './AchievementButton.svelte';
 
 	export let habit: Habit;
 	export let month: number;
@@ -15,7 +15,6 @@
 
 	let unsub: Unsubscribe;
 
-	// Problem here as achievementMap potentially holds data from another habit
 	let achievementsMap: Map<number, Achievement>;
 
 	const firestore = getFirestore();
@@ -29,22 +28,16 @@
 	$: year, subscribeToData();
 
 	// Dirty
-	// TODO: reuse from parent
+	// TODO: find way to reuse
 	$: monthDays = [...Array(new Date(year, month, 0).getDate()).keys()].map((d) => d + 1);
 
-	const dayIsCurrentDay = (day: number) =>
+	const dayIsCurrent = (day: number) =>
 		new Date(year, month, day).toDateString() === new Date().toDateString();
 
-	const collectionRef = collection(
-		firestore,
-		'users',
-		$currentUser.uid,
-		'habits',
-		habit.id,
-		'achievements'
-	);
+	const dayIsPast = (day: number) => new Date(year, month, day + 1) < new Date();
 
 	const subscribeToData = () => {
+		if (!$currentUser) return;
 		if (unsub) unsub();
 
 		// WARNING: january is 0
@@ -53,6 +46,15 @@
 		const endDate = new Date(year, month, 1);
 		endDate.setMonth(endDate.getMonth() + 1);
 		const endTime = Timestamp.fromDate(endDate);
+
+		const collectionRef = collection(
+			firestore,
+			'users',
+			$currentUser.uid,
+			'habits',
+			habit.id,
+			'achievements'
+		);
 
 		const q = query(collectionRef, where('time', '>=', startTime), where('time', '<', endTime));
 
@@ -71,12 +73,12 @@
 </script>
 
 <tr>
-	<td>
+	<td class="habit">
 		<a href={`/habits/${habit.id}`}>{habit.title}</a>
 	</td>
 	{#if achievementsMap}
 		{#each monthDays as day}
-			<td class:current={dayIsCurrentDay(day)}>
+			<td class="achievement" class:current={dayIsCurrent(day)} class:past={dayIsPast(day)}>
 				<AchievementCell {year} {month} {day} achievement={achievementsMap.get(day)} {habit} />
 			</td>
 		{/each}
@@ -84,18 +86,14 @@
 </tr>
 
 <style>
-	td:first-child {
-		padding-right: 0.5rem;
+	.habit {
+		padding-inline: 0.5rem;
 		white-space: nowrap;
 	}
-	td:not(:first-child) {
-		text-align: center;
-	}
 
-	.current {
-		background-color: orange;
-	}
-	tr:last-child .current {
-		border-radius: 0 0 0.5em 0.5rem;
+	.achievement {
+		line-height: 0;
+		padding: 0.25rem;
+		text-align: center;
 	}
 </style>
