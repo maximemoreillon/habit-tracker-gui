@@ -35,6 +35,10 @@
 </AppContent>
 
 <style>
+	main {
+		position: relative;
+	}
+
 	.logo {
 		height: 2.5em;
 		widows: 2.5em;

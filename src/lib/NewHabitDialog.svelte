@@ -46,7 +46,7 @@
 	</form>
 </Dialog>
 
-<Fab on:click={() => (open = true)} color="primary">
+<Fab on:click={() => (open = true)} color="primary" class="dialog_open_button">
 	<Icon class="material-icons">add</Icon>
 </Fab>
 
@@ -55,5 +55,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
+	}
+
+	:global(.dialog_open_button) {
+		position: fixed;
+		top: 6em;
+		right: 2em;
+		z-index: 5;
 	}
 </style>

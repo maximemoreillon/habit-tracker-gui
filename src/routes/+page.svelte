@@ -45,10 +45,9 @@
 <h2>Habits</h2>
 
 {#if $currentUser}
+	<NewHabitDialog />
 	<div class="tools">
 		<MonthSelector bind:month bind:year />
-		<div class="spacer" />
-		<NewHabitDialog />
 	</div>
 
 	<!-- TODO: consider vertical layout for smartphones -->
