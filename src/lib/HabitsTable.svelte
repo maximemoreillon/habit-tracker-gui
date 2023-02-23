@@ -61,7 +61,7 @@
 	}
 
 	table :global(tr:hover td) {
-		background-color: #44444422;
+		background-color: #eeeeee;
 	}
 
 	table :global(tr:hover td:last-child) {
@@ -72,6 +72,7 @@
 		border-radius: 0.5rem 0 0 0.5rem;
 	}
 
+	/* Sticky header and first column */
 	table :global(:is(th, td):first-child) {
 		position: sticky;
 		left: 0;
