@@ -15,7 +15,9 @@ const config: UserConfig = {
 			'firebase/storage'
 		]
 	},
-	plugins: [sveltekit(), SvelteKitPWA()]
+
+	// This is not an error: https://vite-pwa-org.netlify.app/frameworks/sveltekit.html#sveltekit-pwa-plugin-options
+	plugins: [sveltekit(), SvelteKitPWA({ adapterFallback: 'index.html' })]
 };
 
 export default config;
