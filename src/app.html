@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<title>Habit tracker</title>
+
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/logo.png" />
-		<link rel="mask-icon" href="%sveltekit.assets%/logo.png" color="#FFFFFF" />
 		<meta name="viewport" content="width=device-width" />
 
+		<link rel="icon" href="%sveltekit.assets%/logo.png" />
+
+		<!-- PWA -->
+		<link rel="mask-icon" href="%sveltekit.assets%/logo.png" color="#FFFFFF" />
+		<link rel="apple-touch-icon" href="%sveltekit.assets%/logo.png" sizes="180x180" />
+		<meta name="theme-color" content="#444444" />
+		<meta name="description" content="A simple habit tracker" />
+
+		<!-- SMUI -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono" />
+		<link rel="stylesheet" href="/smui.css" />
 		<link
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700"
 		/>
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono" />
-
-		<link rel="stylesheet" href="/smui.css" />
-
-		<title>Habit tracker</title>
 
 		%sveltekit.head%
 	</head>
