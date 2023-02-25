@@ -1,6 +1,4 @@
 <script lang="ts">
-	import '$lib/firebase';
-
 	import { onMount } from 'svelte';
 	import { pwaInfo } from 'virtual:pwa-info';
 
@@ -14,6 +12,7 @@
 	let topAppBar: TopAppBar;
 	let open = false;
 
+	// https://vite-pwa-org.netlify.app/frameworks/sveltekit.html#auto-update
 	onMount(async () => {
 		if (pwaInfo) {
 			const { registerSW } = await import('virtual:pwa-register');
