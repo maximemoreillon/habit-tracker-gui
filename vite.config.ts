@@ -18,8 +18,28 @@ const config: UserConfig = {
 
 	plugins: [
 		sveltekit(),
-		// This is not an error: https://vite-pwa-org.netlify.app/frameworks/sveltekit.html#sveltekit-pwa-plugin-options
-		SvelteKitPWA({ adapterFallback: 'index.html' })
+		SvelteKitPWA({
+			manifest: {
+				name: 'Habit Tracker',
+				short_name: 'HabitTracker',
+				description: 'A simple habit tracker',
+				theme_color: '#444444',
+				icons: [
+					{
+						src: 'pwa-192x192.png',
+						sizes: '192x192',
+						type: 'image/png'
+					},
+					{
+						src: 'pwa-512x512.png',
+						sizes: '512x512',
+						type: 'image/png'
+					}
+				]
+			},
+			// This is not an error: https://vite-pwa-org.netlify.app/frameworks/sveltekit.html#sveltekit-pwa-plugin-options
+			adapterFallback: 'index.html'
+		})
 	]
 };
 
