@@ -19,6 +19,8 @@ const config: UserConfig = {
 	plugins: [
 		sveltekit(),
 		SvelteKitPWA({
+			// Not sure if necessary
+			// https://vite-pwa-org.netlify.app/guide/pwa-minimal-requirements.html#web-app-manifest
 			manifest: {
 				name: 'Habit Tracker',
 				short_name: 'HabitTracker',
