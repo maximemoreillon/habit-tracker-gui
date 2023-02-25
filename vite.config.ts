@@ -16,8 +16,11 @@ const config: UserConfig = {
 		]
 	},
 
-	// This is not an error: https://vite-pwa-org.netlify.app/frameworks/sveltekit.html#sveltekit-pwa-plugin-options
-	plugins: [sveltekit(), SvelteKitPWA({ adapterFallback: 'index.html' })]
+	plugins: [
+		sveltekit(),
+		// This is not an error: https://vite-pwa-org.netlify.app/frameworks/sveltekit.html#sveltekit-pwa-plugin-options
+		SvelteKitPWA({ adapterFallback: 'index.html' })
+	]
 };
 
 export default config;

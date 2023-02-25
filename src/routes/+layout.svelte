@@ -1,6 +1,9 @@
 <script lang="ts">
 	import '$lib/firebase';
 
+	import { onMount } from 'svelte';
+	import { pwaInfo } from 'virtual:pwa-info';
+
 	import TopAppBar, { Row, Section, Title, AutoAdjust } from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
 	import { AppContent } from '@smui/drawer';
@@ -10,7 +13,33 @@
 
 	let topAppBar: TopAppBar;
 	let open = false;
+
+	onMount(async () => {
+		if (pwaInfo) {
+			const { registerSW } = await import('virtual:pwa-register');
+			registerSW({
+				immediate: true,
+				onRegistered(r: any) {
+					// uncomment following code if you want check for updates
+					// r && setInterval(() => {
+					//    console.log('Checking for sw update')
+					//    r.update()
+					// }, 20000 /* 20s for testing purposes */)
+					console.log(`SW Registered: ${r}`);
+				},
+				onRegisterError(error: any) {
+					console.log('SW registration error', error);
+				}
+			});
+		}
+	});
+
+	$: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
+
+<svelte:head>
+	{@html webManifest}
+</svelte:head>
 
 <NavDrawer bind:open />
 <AppContent>
