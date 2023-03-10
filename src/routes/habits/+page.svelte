@@ -43,7 +43,7 @@
 	});
 </script>
 
-<h2>Habits</h2>
+<h2>My Habits</h2>
 
 {#if $currentUser}
 	<NewHabitDialog />

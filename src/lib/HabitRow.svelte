@@ -12,6 +12,7 @@
 	export let habit: Habit;
 	export let month: number;
 	export let year: number;
+	export let hideHabitName: boolean = false;
 
 	let unsub: Unsubscribe;
 
@@ -73,9 +74,11 @@
 </script>
 
 <tr>
-	<td class="habit">
-		<a href={`/habits/${habit.id}`}>{habit.title}</a>
-	</td>
+	{#if !hideHabitName}
+		<td class="habit">
+			<a href={`/habits/${habit.id}`}>{habit.title}</a>
+		</td>
+	{/if}
 	{#if achievementsMap}
 		{#each monthDays as day}
 			<td class="achievement" class:current={dayIsCurrent(day)} class:past={dayIsPast(day)}>

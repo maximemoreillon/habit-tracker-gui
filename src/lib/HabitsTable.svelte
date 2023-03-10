@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type Habit from '$lib/habit';
-
 	import HabitRow from '$lib/HabitRow.svelte';
 
 	$: monthDays = [...Array(new Date(year, month, 0).getDate()).keys()].map((d) => d + 1);
@@ -8,18 +7,30 @@
 	export let habits: Habit[];
 	export let month: number;
 	export let year: number;
+	export let hideHabitName: boolean = false;
+	export let preventCategorization: boolean = false;
 
 	const dayIsCurrent = (day: number) =>
 		new Date(year, month, day).toDateString() === new Date().toDateString();
 
 	const dayIsPast = (day: number) => new Date(year, month, day + 1) < new Date();
+
+	$: habitsAreCategorized = habits.some((h) => !!h.category);
+	$: categorizedHabits = habits.reduce((prev, h) => {
+		const existingCategory = prev.find((p: any) => p.name === h.category);
+		if (!existingCategory) prev.push({ name: h.category, habits: [h] });
+		else existingCategory.habits.push(h);
+		return prev;
+	}, [] as any);
 </script>
 
 <div class="table_wrapper">
 	<table>
 		<thead>
 			<tr>
-				<th />
+				{#if !hideHabitName}
+					<th />
+				{/if}
 				{#each monthDays as day}
 					<th class="day" class:current={dayIsCurrent(day)} class:past={dayIsPast(day)}>
 						{day}
@@ -29,9 +40,25 @@
 		</thead>
 		<tbody>
 			<!-- NOTE: using id as key -->
-			{#each habits as habit (habit.id)}
-				<HabitRow {habit} {month} {year} />
-			{/each}
+			{#if habitsAreCategorized && !preventCategorization}
+				{#each categorizedHabits as category (category)}
+					<tr>
+						<td class="category">
+							{category.name || 'Uncategorized'}
+						</td>
+						{#each monthDays as day}
+							<td class="day" class:current={dayIsCurrent(day)} class:past={dayIsPast(day)} />
+						{/each}
+					</tr>
+					{#each category.habits as habit (habit.id)}
+						<HabitRow {habit} {month} {year} {hideHabitName} />
+					{/each}
+				{/each}
+			{:else}
+				{#each habits as habit (habit.id)}
+					<HabitRow {habit} {month} {year} {hideHabitName} />
+				{/each}
+			{/if}
 		</tbody>
 	</table>
 </div>
@@ -78,5 +105,10 @@
 		left: 0;
 		z-index: 2;
 		background-color: white;
+	}
+
+	.category {
+		padding-top: 1em;
+		padding-bottom: 0.5em;
 	}
 </style>

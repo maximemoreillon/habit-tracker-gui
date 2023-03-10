@@ -76,10 +76,43 @@
 	}
 </script>
 
+<Button href="/habits">
+	<Icon class="material-icons">arrow_left</Icon>
+	<Label>Return to my habits</Label>
+</Button>
+
 <h2>Habit</h2>
+
 {#if $currentUser}
 	{#if habit}
 		<!-- TODO: Improve layout -->
+		<p>
+			<Textfield
+				bind:value={habit.title}
+				label="Title"
+				type="text"
+				input$emptyValueNull
+				input$emptyValueUndefined
+			/>
+		</p>
+		<p>
+			<Textfield
+				bind:value={habit.description}
+				label="Description"
+				type="text"
+				input$emptyValueNull
+				input$emptyValueUndefined
+			/>
+		</p>
+		<p>
+			<Textfield
+				bind:value={habit.category}
+				label="Category"
+				type="text"
+				input$emptyValueNull
+				input$emptyValueUndefined
+			/>
+		</p>
 		<p>
 			<Button type="submit" on:click={updateHabit}>
 				<Icon class="material-icons">save</Icon>
@@ -91,20 +124,14 @@
 			</Button>
 		</p>
 
-		<p>
-			<Textfield bind:value={habit.title} label="Title" type="text" />
-		</p>
-		<p>
-			<Textfield bind:value={habit.description} label="Description" type="text" />
-		</p>
-
 		<h4>Achievements</h4>
 		<p>
 			<MonthSelector bind:month bind:year />
 		</p>
 
-		<!-- TODO: do not show the habit name column in this page -->
-		<HabitsTable {month} {year} habits={[habit]} />
+		<HabitsTable {month} {year} habits={[habit]} hideHabitName preventCategorization />
+	{:else}
+		<p>Habit not found</p>
 	{/if}
 {:else}
 	<p>Only authenticated users can see this resource</p>
