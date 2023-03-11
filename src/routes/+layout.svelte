@@ -78,7 +78,7 @@
 
 	.logo {
 		height: 2.5em;
-		widows: 2.5em;
+		width: 2.5em;
 
 		animation-name: rotating_logo;
 		animation-duration: 60s;
