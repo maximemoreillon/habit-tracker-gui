@@ -2,8 +2,6 @@
 	import type Habit from '$lib/habit';
 	import HabitRow from '$lib/HabitRow.svelte';
 
-	$: monthDays = [...Array(new Date(year, month, 0).getDate()).keys()].map((d) => d + 1);
-
 	export let habits: Habit[];
 	export let month: number;
 	export let year: number;
@@ -15,6 +13,9 @@
 
 	const dayIsPast = (day: number) => new Date(year, month, day + 1) < new Date();
 
+	$: monthDays = [...Array(new Date(year, month, 0).getDate()).keys()].map((d) => d + 1);
+
+	// Categorization
 	$: habitsAreCategorized = habits.some((h) => !!h.category);
 	$: categorizedHabits = habits.reduce((prev, h) => {
 		const existingCategory = prev.find((p: any) => p.name === h.category);
