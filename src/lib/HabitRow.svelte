@@ -15,7 +15,6 @@
 	export let hideHabitName: boolean = false;
 
 	let unsub: Unsubscribe;
-	let loading = false;
 	let achievementsMap: Map<number, Achievement>;
 
 	const firestore = getFirestore();
@@ -40,8 +39,6 @@
 	const subscribeToData = () => {
 		if (!$currentUser) return;
 		if (unsub) unsub();
-
-		loading = true;
 
 		// WARNING: january is 0
 		const startDate = new Date(year, month, 1);
@@ -71,8 +68,6 @@
 
 				return prev;
 			}, new Map());
-
-			loading = false;
 		});
 	};
 </script>
@@ -83,11 +78,8 @@
 			<a href={`/habits/${habit.id}`}>{habit.title}</a>
 		</td>
 	{/if}
-	{#if loading}
-		{#each monthDays as day}
-			<td class="achievement" class:current={dayIsCurrent(day)} class:past={dayIsPast(day)} />
-		{/each}
-	{:else if achievementsMap}
+
+	{#if achievementsMap}
 		{#each monthDays as day}
 			<td class="achievement" class:current={dayIsCurrent(day)} class:past={dayIsPast(day)}>
 				<AchievementCell {year} {month} {day} achievement={achievementsMap.get(day)} {habit} />
