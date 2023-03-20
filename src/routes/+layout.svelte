@@ -44,7 +44,7 @@
 	{@html webManifest}
 </svelte:head>
 
-{#if true || $currentUser === undefined}
+{#if $currentUser === undefined}
 	<AuthenticationWall />
 {:else}
 	<!-- <NavDrawer bind:open />
