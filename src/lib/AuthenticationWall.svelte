@@ -1,10 +1,12 @@
 <script lang ts>
 	import { currentUser } from '$lib/firebase';
+	import LinearProgress from '@smui/linear-progress';
 </script>
 
 <div class="authentication_wall">
 	<img src="/logo.png" alt="" class="authentication_wall_logo" />
 	<h4>Habit tracker</h4>
+	<LinearProgress indeterminate class="progress_wrapper" />
 </div>
 
 <style>
@@ -23,12 +25,16 @@
 	}
 
 	.authentication_wall_logo {
-		height: 12rem;
-		width: 12rem;
+		height: 20vmin;
+		width: 20vmin;
 		animation-name: rotating_logo;
 		animation-duration: 60s;
 		animation-timing-function: linear;
 		animation-iteration-count: infinite;
+	}
+
+	:global(.progress_wrapper) {
+		width: 15vmin;
 	}
 
 	@keyframes rotating_logo {
