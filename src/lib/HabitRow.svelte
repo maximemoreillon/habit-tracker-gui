@@ -29,7 +29,7 @@
 
 	// Dirty
 	// TODO: find way to reuse
-	$: monthDays = [...Array(new Date(year, month, 0).getDate()).keys()].map((d) => d + 1);
+	$: monthDays = [...Array(new Date(year, month + 1, 0).getDate()).keys()].map((d) => d + 1);
 
 	const dayIsCurrent = (day: number) =>
 		new Date(year, month, day).toDateString() === new Date().toDateString();

@@ -19,7 +19,7 @@
 
 	let unsub: Unsubscribe;
 	let habits: Habit[] = [];
-	let month = new Date().getMonth() + 1;
+	let month = new Date().getMonth();
 	let year = new Date().getFullYear();
 
 	let loading = false;
