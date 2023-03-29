@@ -10,6 +10,6 @@
 <Select bind:value={month} label="Month">
 	{#each [...Array(12).keys()] as month}
 		<!-- WARNING: January is 0 -->
-		<Option value={month}>{month + 1}</Option>
+		<Option value={month}>{month}</Option>
 	{/each}
 </Select>
