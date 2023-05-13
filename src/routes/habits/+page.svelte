@@ -36,7 +36,7 @@
 	function subScribeToCollection(user: User) {
 		loading = true;
 		const collectionRef = collection(firestore, 'users', user.uid, 'habits');
-		// TODO: check if data gets updated if another user updates his habits
+		// TODO: check if data gets updated if another user updates his habits. Probably not though
 		// NOTE: does not query subcollections?
 		unsub = onSnapshot(collectionRef, (collection) => {
 			habits = collection.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Habit[];

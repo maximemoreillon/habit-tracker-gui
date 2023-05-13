@@ -8,6 +8,11 @@
 	export let hideHabitName: boolean = false;
 	export let preventCategorization: boolean = false;
 
+	interface HabitCategory {
+		name: String;
+		habits: Habit[];
+	}
+
 	const dayIsCurrent = (day: number) =>
 		new Date(year, month, day).toDateString() === new Date().toDateString();
 
@@ -17,12 +22,14 @@
 
 	// Categorization
 	$: habitsAreCategorized = habits.some((h) => !!h.category);
-	$: categorizedHabits = habits.reduce((prev, h) => {
-		const existingCategory = prev.find((p: any) => p.name === h.category);
-		if (!existingCategory) prev.push({ name: h.category, habits: [h] });
-		else existingCategory.habits.push(h);
-		return prev;
-	}, [] as any);
+
+	$: categorizedHabits = habits.reduce((existingCategories: HabitCategory[], habit: Habit) => {
+		const categoryName = habit.category || 'Uncategorized';
+		const existingCategory = existingCategories.find(({ name }: any) => name === categoryName);
+		if (!existingCategory) existingCategories.push({ name: categoryName, habits: [habit] });
+		else existingCategory.habits.push(habit);
+		return existingCategories;
+	}, []);
 </script>
 
 <div class="table_wrapper">
