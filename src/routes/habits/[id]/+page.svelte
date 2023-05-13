@@ -69,10 +69,9 @@
 		if (!$currentUser) return;
 		try {
 			const collectionRef = collection(firestore, 'users', $currentUser.uid, 'habits');
-
 			const docRef = doc(collectionRef, id);
-			// TODO: Find correct type
-			await updateDoc(docRef, habit as any);
+			// { [x: string]: any; } is the type expected bu updateDoc
+			await updateDoc(docRef, habit as { [x: string]: any });
 			snackbarMessage = 'Habit saved';
 		} catch (error) {
 			alert(error);

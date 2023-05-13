@@ -1,5 +1,4 @@
 <script lang ts>
-	import { currentUser } from '$lib/firebase';
 	import LinearProgress from '@smui/linear-progress';
 </script>
 

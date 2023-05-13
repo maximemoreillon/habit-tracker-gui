@@ -15,21 +15,22 @@
 
 	const firestore = getFirestore();
 
-	const collectionRef = collection(
-		firestore,
-		'users',
-		$currentUser.uid,
-		'habits',
-		habit.id,
-		'achievements'
-	);
-
 	const dayIsPast = () => new Date(year, month, day + 1) < new Date();
 
 	const createAchievement = async () => {
+		if (!$currentUser) return;
 		// WARNING: january is 0
 		const date = new Date(year, month, day);
 		const time = Timestamp.fromDate(date);
+
+		const collectionRef = collection(
+			firestore,
+			'users',
+			$currentUser.uid,
+			'habits',
+			habit.id,
+			'achievements'
+		);
 
 		try {
 			const newDoc = { time };
@@ -41,7 +42,18 @@
 	};
 
 	const deleteAchievement = async () => {
-		if (!achievement || !achievement.id) return;
+		if (!achievement?.id) return;
+		if (!$currentUser) return;
+
+		const collectionRef = collection(
+			firestore,
+			'users',
+			$currentUser.uid,
+			'habits',
+			habit.id,
+			'achievements'
+		);
+
 		try {
 			const docRef = doc(collectionRef, achievement.id);
 			await deleteDoc(docRef);

@@ -23,13 +23,24 @@
 	// Categorization
 	$: habitsAreCategorized = habits.some((h) => !!h.category);
 
-	$: categorizedHabits = habits.reduce((existingCategories: HabitCategory[], habit: Habit) => {
+	$: categorizedHabits = habits.reduce((prev: HabitCategory[], habit: Habit) => {
 		const categoryName = habit.category || 'Uncategorized';
-		const existingCategory = existingCategories.find(({ name }: any) => name === categoryName);
-		if (!existingCategory) existingCategories.push({ name: categoryName, habits: [habit] });
+		const existingCategory = prev.find(({ name }: HabitCategory) => name === categoryName);
+		if (!existingCategory) prev.push({ name: categoryName, habits: [habit] });
 		else existingCategory.habits.push(habit);
-		return existingCategories;
+		return prev;
 	}, []);
+
+	// Scroll to current day
+	// NOT NICE
+	$: if (habits.length) {
+		setTimeout(() => {
+			const currentDay = document.querySelector('.current');
+			currentDay?.scrollIntoView({
+				behavior: 'smooth'
+			});
+		}, 500);
+	}
 </script>
 
 <div class="table_wrapper">
@@ -47,9 +58,8 @@
 			</tr>
 		</thead>
 		<tbody>
-			<!-- NOTE: using id as key -->
 			{#if habitsAreCategorized && !preventCategorization}
-				{#each categorizedHabits as category (category)}
+				{#each categorizedHabits as category (category.name)}
 					<tr>
 						<td class="category">
 							{category.name || 'Uncategorized'}
@@ -58,6 +68,8 @@
 							<td class="day" class:current={dayIsCurrent(day)} class:past={dayIsPast(day)} />
 						{/each}
 					</tr>
+					<!-- NOTE: using id as key -->
+
 					{#each category.habits as habit (habit.id)}
 						<HabitRow {habit} {month} {year} {hideHabitName} />
 					{/each}

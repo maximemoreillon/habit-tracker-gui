@@ -1,8 +1,6 @@
 import type { Timestamp } from 'firebase/firestore';
 
-interface Habit {
+export default interface Habit {
 	id: string;
 	time: Timestamp;
 }
-
-export default Habit;
