@@ -74,6 +74,8 @@
 <style>
 	main {
 		position: relative;
+		width: min(100ch, 100% - 4rem);
+		margin-inline: auto;
 	}
 
 	.logo {

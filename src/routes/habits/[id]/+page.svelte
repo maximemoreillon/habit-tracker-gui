@@ -3,6 +3,8 @@
 
 	import Textfield from '@smui/textfield';
 	import Button, { Label, Icon } from '@smui/button';
+	import Snackbar, { Actions, Label as SnackbarLabel } from '@smui/snackbar';
+	import IconButton from '@smui/icon-button';
 
 	import HabitsTable from '$lib/HabitsTable.svelte';
 	import MonthSelector from '$lib/MonthSelector.svelte';
@@ -19,6 +21,9 @@
 	let habit: Habit;
 	let month = new Date().getMonth();
 	let year = new Date().getFullYear();
+
+	let snackbar: Snackbar;
+	let snackbarMessage: string;
 
 	const { id } = $page.params;
 
@@ -68,25 +73,39 @@
 			const docRef = doc(collectionRef, id);
 			// TODO: Find correct type
 			await updateDoc(docRef, habit as any);
-			alert('Habit updated successfully');
+			snackbarMessage = 'Habit saved';
 		} catch (error) {
 			alert(error);
+			snackbarMessage = 'An error occured while saving the habit';
 			console.error(error);
+		} finally {
+			snackbar.open();
 		}
 	}
 </script>
 
-<Button href="/habits">
-	<Icon class="material-icons">arrow_left</Icon>
-	<Label>Return to my habits</Label>
-</Button>
+<div class="toolbar">
+	<Button href="/habits">
+		<Icon class="material-icons">arrow_left</Icon>
+		<Label>Return to my habits</Label>
+	</Button>
+	<div class="spacer" />
+	<Button type="submit" on:click={updateHabit}>
+		<Icon class="material-icons">save</Icon>
+		<Label>Update habit</Label>
+	</Button>
+	<Button type="submit" on:click={deleteHabit}>
+		<Icon class="material-icons">delete</Icon>
+		<Label>Delete habit</Label>
+	</Button>
+</div>
 
 <h2>Habit</h2>
 
 {#if $currentUser}
 	{#if habit}
 		<!-- TODO: Improve layout -->
-		<p>
+		<div class="habit-details">
 			<Textfield
 				bind:value={habit.title}
 				label="Title"
@@ -94,17 +113,6 @@
 				input$emptyValueNull
 				input$emptyValueUndefined
 			/>
-		</p>
-		<p>
-			<Textfield
-				bind:value={habit.description}
-				label="Description"
-				type="text"
-				input$emptyValueNull
-				input$emptyValueUndefined
-			/>
-		</p>
-		<p>
 			<Textfield
 				bind:value={habit.category}
 				label="Category"
@@ -112,17 +120,16 @@
 				input$emptyValueNull
 				input$emptyValueUndefined
 			/>
-		</p>
-		<p>
-			<Button type="submit" on:click={updateHabit}>
-				<Icon class="material-icons">save</Icon>
-				<Label>Update habit</Label>
-			</Button>
-			<Button type="submit" on:click={deleteHabit}>
-				<Icon class="material-icons">delete</Icon>
-				<Label>Delete habit</Label>
-			</Button>
-		</p>
+
+			<Textfield
+				class="description"
+				bind:value={habit.description}
+				label="Description"
+				type="text"
+				input$emptyValueNull
+				input$emptyValueUndefined
+			/>
+		</div>
 
 		<h4>Achievements</h4>
 		<p>
@@ -136,3 +143,35 @@
 {:else}
 	<p>Only authenticated users can see this resource</p>
 {/if}
+
+<Snackbar bind:this={snackbar}>
+	<SnackbarLabel>{snackbarMessage}</SnackbarLabel>
+	<Actions>
+		<IconButton class="material-icons" title="Dismiss">close</IconButton>
+	</Actions>
+</Snackbar>
+
+<style>
+	.toolbar {
+		display: flex;
+	}
+	.spacer {
+		flex-grow: 1;
+	}
+
+	.habit-details {
+		display: flex;
+		gap: 0.5em;
+		flex-wrap: wrap;
+	}
+
+	:global(.habit-details > *) {
+		flex-basis: 20ch;
+		flex-grow: 1;
+		flex-shrink: 0;
+	}
+
+	:global(.description) {
+		flex-grow: 5;
+	}
+</style>
