@@ -87,16 +87,16 @@
 <div class="toolbar">
 	<Button href="/habits">
 		<Icon class="material-icons">arrow_left</Icon>
-		<Label>Return to my habits</Label>
+		<Label>My habits</Label>
 	</Button>
 	<div class="spacer" />
 	<Button type="submit" on:click={updateHabit}>
 		<Icon class="material-icons">save</Icon>
-		<Label>Update habit</Label>
+		<Label>Save</Label>
 	</Button>
 	<Button type="submit" on:click={deleteHabit}>
 		<Icon class="material-icons">delete</Icon>
-		<Label>Delete habit</Label>
+		<Label>Delete</Label>
 	</Button>
 </div>
 
