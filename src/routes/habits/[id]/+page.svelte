@@ -85,7 +85,7 @@
 
 <div class="toolbar">
 	<Button href="/habits">
-		<Icon class="material-icons">arrow_left</Icon>
+		<Icon class="material-icons">arrow_back</Icon>
 		<Label>My habits</Label>
 	</Button>
 	<div class="spacer" />
@@ -103,31 +103,38 @@
 
 {#if $currentUser}
 	{#if habit}
-		<!-- TODO: Improve layout -->
 		<div class="habit-details">
-			<Textfield
-				bind:value={habit.title}
-				label="Title"
-				type="text"
-				input$emptyValueNull
-				input$emptyValueUndefined
-			/>
-			<Textfield
-				bind:value={habit.category}
-				label="Category"
-				type="text"
-				input$emptyValueNull
-				input$emptyValueUndefined
-			/>
+			<div class="row">
+				<Textfield
+					bind:value={habit.title}
+					label="Title"
+					type="text"
+					input$emptyValueNull
+					input$emptyValueUndefined
+				/>
+				<Textfield
+					bind:value={habit.category}
+					label="Category"
+					type="text"
+					input$emptyValueNull
+					input$emptyValueUndefined
+				/>
 
-			<Textfield
-				class="description"
-				bind:value={habit.description}
-				label="Description"
-				type="text"
-				input$emptyValueNull
-				input$emptyValueUndefined
-			/>
+				<div class="color-selector-wrapper">
+					<Icon class="material-icons">palette</Icon>
+					<input type="color" bind:value={habit.color} class="color-selector" />
+				</div>
+			</div>
+			<div class="row">
+				<Textfield
+					class="description"
+					bind:value={habit.description}
+					label="Description"
+					type="text"
+					input$emptyValueNull
+					input$emptyValueUndefined
+				/>
+			</div>
 		</div>
 
 		<h4>Achievements</h4>
@@ -160,17 +167,31 @@
 
 	.habit-details {
 		display: flex;
+		flex-direction: column;
+		gap: 1em;
+	}
+
+	.habit-details .row {
+		display: flex;
+		align-items: center;
 		gap: 0.5em;
 		flex-wrap: wrap;
 	}
 
-	:global(.habit-details > *) {
-		flex-basis: 20ch;
+	:global(.row > *) {
 		flex-grow: 1;
-		flex-shrink: 0;
 	}
 
-	:global(.description) {
-		flex-grow: 5;
+	.color-selector-wrapper {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		flex-basis: 0;
+	}
+
+	.color-selector {
+		flex-grow: 1;
+		background-color: transparent;
+		border-radius: 0.5em;
 	}
 </style>

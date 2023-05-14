@@ -10,7 +10,7 @@
 
 	let open = false;
 
-	let newHabit = { title: '', description: '', category: '' };
+	let newHabit = { title: '', description: '', category: '', color: '#c00000' };
 
 	const createItem = async () => {
 		if (!$currentUser) return;
@@ -32,8 +32,8 @@
 	<form on:submit|preventDefault={createItem}>
 		<Content class="form_content">
 			<Textfield bind:value={newHabit.title} label="Title" />
-			<Textfield bind:value={newHabit.description} label="Description" />
 			<Textfield bind:value={newHabit.category} label="Category" />
+			<Textfield bind:value={newHabit.description} label="Description" />
 		</Content>
 
 		<Actions>

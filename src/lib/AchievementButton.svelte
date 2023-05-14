@@ -70,9 +70,9 @@
 </script>
 
 <button
+	style="background-color: {!!achievement ? habit.color || '#c00000' : 'white'}"
 	class="achievement"
 	class:past={dayIsPast()}
-	class:achieved={!!achievement}
 	on:click={() => {
 		achievementClicked();
 	}}
@@ -80,16 +80,11 @@
 
 <style>
 	.achievement {
-		background-color: white;
 		border: 1px solid #bbbbbb;
 		border-radius: 0.5rem;
 		width: 1.5rem;
 		height: 1.5rem;
 		cursor: pointer;
 		margin: 0;
-	}
-
-	.achievement.achieved {
-		background-color: #c00000;
 	}
 </style>
