@@ -27,6 +27,8 @@
 
 	const { id } = $page.params;
 
+	const defaultColor = '#c00000';
+
 	// TODO: find better way
 	onMount(() => {
 		currentUser.subscribe((user) => {
@@ -123,6 +125,17 @@
 				<div class="color-selector-wrapper">
 					<Icon class="material-icons">palette</Icon>
 					<input type="color" bind:value={habit.color} class="color-selector" />
+
+					<IconButton
+						disabled={habit.color === defaultColor}
+						type="submit"
+						class="material-icons"
+						on:click={() => {
+							habit.color = defaultColor;
+						}}
+					>
+						refresh
+					</IconButton>
 				</div>
 			</div>
 			<div class="row">
@@ -143,19 +156,19 @@
 		</p>
 
 		<HabitsTable {month} {year} habits={[habit]} hideHabitName preventCategorization />
+
+		<Snackbar bind:this={snackbar}>
+			<SnackbarLabel>{snackbarMessage}</SnackbarLabel>
+			<Actions>
+				<IconButton class="material-icons" title="Dismiss">close</IconButton>
+			</Actions>
+		</Snackbar>
 	{:else}
 		<p>Habit not found</p>
 	{/if}
 {:else}
 	<p>Only authenticated users can see this resource</p>
 {/if}
-
-<Snackbar bind:this={snackbar}>
-	<SnackbarLabel>{snackbarMessage}</SnackbarLabel>
-	<Actions>
-		<IconButton class="material-icons" title="Dismiss">close</IconButton>
-	</Actions>
-</Snackbar>
 
 <style>
 	.toolbar {
@@ -187,6 +200,7 @@
 		align-items: center;
 		gap: 0.5em;
 		flex-basis: 0;
+		flex-grow: 0;
 	}
 
 	.color-selector {
