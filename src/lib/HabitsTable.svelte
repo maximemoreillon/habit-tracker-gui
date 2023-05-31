@@ -111,7 +111,7 @@
 		background-color: #eeeeee;
 	}
 
-	table :global(tr:hover td:last-child) {
+	table :global(tr:hover td:last-child:not(.current)) {
 		border-radius: 0 0.5rem 0.5rem 0;
 	}
 
