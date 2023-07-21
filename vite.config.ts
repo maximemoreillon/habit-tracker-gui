@@ -25,7 +25,7 @@ const config: UserConfig = {
 				name: 'Habit Tracker',
 				short_name: 'HabitTracker',
 				description: 'A simple habit tracker',
-				theme_color: '#444444',
+				theme_color: '#000',
 				icons: [
 					{
 						src: 'pwa-192x192.png',
