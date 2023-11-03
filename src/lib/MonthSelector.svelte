@@ -24,24 +24,34 @@
 </script>
 
 <div class="wrapper">
-	<Textfield bind:value={year} label="Year" type="number" />
+	<div class="subwrapper">
+		<IconButton class="material-icons" on:click={() => year--}>arrow_left</IconButton>
+		<Textfield bind:value={year} label="Year" type="number" />
+		<IconButton class="material-icons" on:click={() => year++}>arrow_right</IconButton>
+	</div>
 
-	<IconButton class="material-icons" on:click={() => previousMonth()}>arrow_left</IconButton>
+	<div class="subwrapper">
+		<IconButton class="material-icons" on:click={() => previousMonth()}>arrow_left</IconButton>
 
-	<Select bind:value={month} label="Month">
-		{#each [...Array(12).keys()] as month}
-			<!-- WARNING: January is 0 -->
-			<Option value={month}>{month + 1}</Option>
-		{/each}
-	</Select>
+		<Select bind:value={month} label="Month">
+			{#each [...Array(12).keys()] as month}
+				<!-- WARNING: January is 0 -->
+				<Option value={month}>{month + 1}</Option>
+			{/each}
+		</Select>
 
-	<IconButton class="material-icons" on:click={() => nextMonth()}>arrow_right</IconButton>
+		<IconButton class="material-icons" on:click={() => nextMonth()}>arrow_right</IconButton>
+	</div>
 </div>
 
 <style>
-	.wrapper {
+	.wrapper,
+	.subwrapper {
 		display: flex;
-		gap: 0.5em;
 		align-items: center;
+	}
+
+	.wrapper {
+		gap: 1em;
 	}
 </style>
