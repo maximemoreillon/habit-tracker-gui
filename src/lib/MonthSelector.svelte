@@ -27,6 +27,11 @@
 	<div class="subwrapper">
 		<IconButton class="material-icons" on:click={() => year--}>arrow_left</IconButton>
 		<Textfield bind:value={year} label="Year" type="number" class="input" />
+		<!-- <Select bind:value={year} label="Year" class="input">
+			{#each [...Array(10).keys()].map((i) => new Date().getFullYear() - i).reverse() as yearOption}
+				<Option value={yearOption}>{yearOption}</Option>
+			{/each}
+		</Select> -->
 		<IconButton class="material-icons" on:click={() => year++}>arrow_right</IconButton>
 	</div>
 
@@ -34,9 +39,9 @@
 		<IconButton class="material-icons" on:click={() => previousMonth()}>arrow_left</IconButton>
 
 		<Select bind:value={month} label="Month" class="input">
-			{#each [...Array(12).keys()] as month}
+			{#each [...Array(12).keys()] as monthOption}
 				<!-- WARNING: January is 0 -->
-				<Option value={month}>{month + 1}</Option>
+				<Option value={monthOption}>{monthOption + 1}</Option>
 			{/each}
 		</Select>
 
@@ -57,7 +62,7 @@
 		flex-wrap: wrap;
 	}
 
-	:global(.subwrapper > .input) {
-		width: 100px;
+	:global(.input) {
+		width: 10ch;
 	}
 </style>
