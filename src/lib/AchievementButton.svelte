@@ -70,9 +70,7 @@
 </script>
 
 <button
-	style="background-color: {!!achievement
-		? habit.color || '#c00000'
-		: 'var(--mdc-theme-background)'}"
+	style="background-color: {!!achievement ? habit.color || '#c00000' : '#00000000'}"
 	class="achievement"
 	class:past={dayIsPast()}
 	on:click={() => {

@@ -75,8 +75,4 @@
 		align-items: center;
 		margin-bottom: 2rem;
 	}
-
-	.spacer {
-		flex-grow: 1;
-	}
 </style>
