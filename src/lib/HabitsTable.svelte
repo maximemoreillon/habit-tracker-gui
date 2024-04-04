@@ -108,7 +108,7 @@
 	}
 
 	table :global(tr:hover td) {
-		background-color: #eeeeee;
+		background-color: #999999;
 	}
 
 	table :global(tr:hover td:last-child:not(.current)) {
@@ -124,7 +124,8 @@
 		position: sticky;
 		left: 0;
 		z-index: 2;
-		background-color: white;
+		background-color: var(--mdc-theme-background);
+		/* background-color: white; */
 	}
 
 	.category {

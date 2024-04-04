@@ -96,7 +96,7 @@
 	.habit {
 		padding-inline: 0.5rem;
 		white-space: nowrap;
-		background-color: white;
+		background-color: var(--mdc-theme-background);
 		/* 
 		font-weight: bold;
 		color: inherit;
