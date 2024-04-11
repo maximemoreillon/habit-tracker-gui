@@ -125,7 +125,6 @@
 		left: 0;
 		z-index: 2;
 		background-color: var(--mdc-theme-background);
-		/* background-color: white; */
 	}
 
 	.category {
