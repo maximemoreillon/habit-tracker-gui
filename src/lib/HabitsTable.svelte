@@ -95,7 +95,7 @@
 	}
 
 	table :global(.current) {
-		background-color: #44444488 !important;
+		background-color: #44444488;
 		color: white;
 	}
 
@@ -109,6 +109,10 @@
 
 	table :global(tr:hover td) {
 		background-color: #999999;
+	}
+
+	table :global(tr:hover td.current) {
+		background-color: #999999aa;
 	}
 
 	table :global(tr:hover td:last-child:not(.current)) {
@@ -125,6 +129,9 @@
 		left: 0;
 		z-index: 2;
 		background-color: var(--mdc-theme-background);
+
+		/* Border moves with scroll */
+		/* border-right: 1px solid #bbbbbb; */
 	}
 
 	.category {
