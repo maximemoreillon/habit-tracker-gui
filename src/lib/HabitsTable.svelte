@@ -112,7 +112,7 @@
 	}
 
 	table :global(tr:hover td.current) {
-		background-color: #999999aa;
+		background-color: #999999;
 	}
 
 	table :global(tr:hover td:last-child:not(.current)) {
