@@ -107,22 +107,6 @@
 		border-radius: 0 0 0.5rem 0.5rem;
 	}
 
-	table :global(tr:hover td) {
-		background-color: #999999;
-	}
-
-	table :global(tr:hover td.current) {
-		background-color: #999999;
-	}
-
-	table :global(tr:hover td:last-child:not(.current)) {
-		border-radius: 0 0.5rem 0.5rem 0;
-	}
-
-	table :global(tr:hover td:first-child) {
-		border-radius: 0.5rem 0 0 0.5rem;
-	}
-
 	/* Sticky header and first column */
 	table :global(:is(th, td):first-child) {
 		position: sticky;
