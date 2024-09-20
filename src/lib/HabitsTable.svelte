@@ -122,4 +122,17 @@
 		padding-top: 1em;
 		padding-bottom: 0.5em;
 	}
+
+	table :global(tr:hover td) {
+		background-color: #999999;
+	}
+	table :global(tr:hover td.current) {
+		background-color: #999999;
+	}
+	table :global(tr:hover td:last-child:not(.current)) {
+		border-radius: 0 0.5rem 0.5rem 0;
+	}
+	table :global(tr:hover td:first-child) {
+		border-radius: 0.5rem 0 0 0.5rem;
+	}
 </style>
