@@ -129,6 +129,9 @@
 	table :global(tr:hover td.current) {
 		background-color: #999999;
 	}
+	table :global(tr:last-child:hover td.current) {
+		border-radius: 0;
+	}
 	table :global(tr:hover td:last-child:not(.current)) {
 		border-radius: 0 0.5rem 0.5rem 0;
 	}
