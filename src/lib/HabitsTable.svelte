@@ -18,6 +18,7 @@
 
 	const dayIsPast = (day: number) => new Date(year, month, day + 1) < new Date();
 
+	const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 	$: monthDays = [...Array(new Date(year, month + 1, 0).getDate()).keys()].map((d) => d + 1);
 
 	// Categorization
@@ -52,7 +53,8 @@
 				{/if}
 				{#each monthDays as day}
 					<th class="day" class:current={dayIsCurrent(day)} class:past={dayIsPast(day)}>
-						{day}
+						<div>{day}</div>
+						<div class="weekday">{weekDays[new Date(year, month, day).getDay()]}</div>
 					</th>
 				{/each}
 			</tr>
@@ -92,6 +94,10 @@
 	table {
 		border-collapse: collapse;
 		min-width: 100%;
+	}
+
+	table :global(.weekday) {
+		font-size: 60%;
 	}
 
 	table :global(.current) {
