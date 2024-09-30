@@ -103,7 +103,8 @@
 		border-radius: 0.5rem 0.5em 0 0;
 	}
 
-	table :global(tbody tr:last-child .current) {
+	/* Lower corners rounded for current day */
+	table :global(tbody tr:last-child:not(:hover) .current) {
 		border-radius: 0 0 0.5rem 0.5rem;
 	}
 
@@ -129,12 +130,12 @@
 	table :global(tr:hover td.current) {
 		background-color: #999999;
 	}
-	table :global(tr:last-child:hover td.current) {
-		border-radius: 0;
-	}
-	table :global(tr:hover td:last-child:not(.current)) {
+
+	/* right corners rounded on hovered row */
+	table :global(tr:hover td:last-child) {
 		border-radius: 0 0.5rem 0.5rem 0;
 	}
+	/* left corners rounded on hovered row */
 	table :global(tr:hover td:first-child) {
 		border-radius: 0.5rem 0 0 0.5rem;
 	}
